@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/base}">
+
+<head>
+<meta charset="UTF-8">
+<title th:text="#{create.user.title}"></title>
+</head>
+<body>
+	<div layout:fragment="contenido">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-offset-2 col-md-8">
+					<form method="post" action="#" th:object="${user}"
+						th:action="@{/admin/categoria/nueva/submit}">
+						<h1>
+							<span th:text="${user.id} ? 'Editar' : 'Nuevo trabajador'"></span>
+
+						</h1>
+						<input type="hidden" th:field="*{id}" id="id" />
+						<div class="form-group">
+							<label class="control-label" for="name">Nombre</label> <input
+								type="text" class="form-control" id="name" placeholder="Nombre"
+								required="required" th:field="*{name}">
+						</div>
+
+						<button type="submit" class="btn btn-default">Enviar</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
