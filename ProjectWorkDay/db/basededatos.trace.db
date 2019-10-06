@@ -1,0 +1,4 @@
+2019-10-05 22:02:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "CATEGORIA" no encontrada
+Table "CATEGORIA" not found; SQL statement:
+INSERT INTO CATEGORIA (ID, NOMBRE, DESTACADA, IMAGEN) VALUES (1,'Portátiles',true,null) [42102-199]
