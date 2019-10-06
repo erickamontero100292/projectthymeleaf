@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data 
 @NoArgsConstructor
 @Entity
-public class User {
+public class Employee {
 	@Id
 	@GeneratedValue
 	private Long id;
@@ -18,11 +18,11 @@ public class User {
 	private String name;
 	
 
-	public User() {
+	public Employee() {
 		super();
 	}
 
-	public User(Long id, String name) {
+	public Employee(Long id, String name) {
 		super();
 		this.id = id;
 		this.name = name;

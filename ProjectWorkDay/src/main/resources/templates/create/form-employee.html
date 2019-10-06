@@ -5,17 +5,17 @@
 
 <head>
 <meta charset="UTF-8">
-<title th:text="#{create.user.title}"></title>
+<title th:text="#{create.menu.employee.title}"></title>
 </head>
 <body>
 	<div layout:fragment="contenido">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-offset-2 col-md-8">
-					<form method="post" action="#" th:object="${user}"
+					<form method="post" action="#" th:object="${employee}"
 						th:action="@{/admin/categoria/nueva/submit}">
 						<h1>
-							<span th:text="${user.id} ? 'Editar' : 'Nuevo trabajador'"></span>
+							<span th:text="${employee.id} ? 'Editar' : 'Nuevo trabajador'"></span>
 
 						</h1>
 						<input type="hidden" th:field="*{id}" id="id" />

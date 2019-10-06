@@ -5,24 +5,24 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.workday.model.User;
+import com.workday.model.Employee;
 
 @Controller
-@RequestMapping("/create/user")
-public class UserController {
+@RequestMapping("/create/employee")
+public class EmployeeController {
 
 	@GetMapping("/")
 	public String index(Model model) {
 		
-		model.addAttribute("user", new User());
-		return "create/form-user";
+		model.addAttribute("employee", new Employee());
+		return "create/form-employee";
 	}
 	
 	@GetMapping("/new")
-	public String newUser(Model model) {
+	public String newemployee(Model model) {
 		
-		model.addAttribute("user", new User());
-		return "create/form-user";
+		model.addAttribute("employee", new Employee());
+		return "create/form-employee";
 	}
 	
 }
