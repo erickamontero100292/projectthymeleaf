@@ -9,7 +9,7 @@ create sequence hibernate_sequence start with 100 increment by 1;
 create table workday (
 	id bigint not null, 
 	name  varchar(512), 
-    numberHour integer,
+    number_hour integer,
 	primary key (id)
 );
 

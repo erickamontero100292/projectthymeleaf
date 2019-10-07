@@ -1,15 +1,22 @@
 package com.workday.controller;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.workday.model.Workday;
+import com.workday.services.WorkDayService;
 @Controller
 @RequestMapping("/create/workday")
 public class WorkdayController {
+	
+	@Autowired
+	private WorkDayService workdayService;
 	
 	@GetMapping("/new")
 	public String nerWorkDay(Model model) {
@@ -17,7 +24,10 @@ public class WorkdayController {
 		return "create/form-workday";
 	}
  
-	public String submitNewWorkDay() {
-		return "redirect:/admin/categoria/";
+	@PostMapping("/new/submit")
+	public String submitNewWorkDay(@ModelAttribute("workday")Workday workday, Model model) {
+		
+		workdayService.save(workday);
+		return "index";
 	}
 }
