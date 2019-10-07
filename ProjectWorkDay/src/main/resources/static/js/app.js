@@ -1,12 +1,11 @@
 $(document).ready(
 		function() {
 
-			$('#form-employee :submit').click(
-					function(event) {
+			$('#form-employee :submit').click(function(event) {
 						// Evitamos que se envíe el formulario
 						event.preventDefault();
 
-						// Tomamos el número de categoría
+						// Tomamos el número de workdays
 						// y lo asignamos al campo oculto para enviarlo
 						var selectedAsText = $('#workday-datalist').val();
 						var valueAsLong = $(
