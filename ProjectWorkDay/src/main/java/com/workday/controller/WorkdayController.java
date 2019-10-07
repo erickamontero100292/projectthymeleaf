@@ -16,5 +16,8 @@ public class WorkdayController {
 		model.addAttribute("work",new Workday());
 		return "create/form-workday";
 	}
-
+ 
+	public String submitNewWorkDay() {
+		return "redirect:/admin/categoria/";
+	}
 }
