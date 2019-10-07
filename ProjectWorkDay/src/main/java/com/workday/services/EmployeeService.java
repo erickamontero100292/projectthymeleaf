@@ -11,6 +11,7 @@ public class EmployeeService {
 	
 	private EmployeeRepository employeeRepository;
 	
+<<<<<<< HEAD
 	
 	
 	public EmployeeService(EmployeeRepository employeeRepository) {
@@ -20,6 +21,8 @@ public class EmployeeService {
 
 
 
+=======
+>>>>>>> branch 'master' of https://github.com/erickamontero100292/projectthymeleaf.git
 	public Employee save (Employee employee){
 		
 		return employeeRepository.save(employee);
