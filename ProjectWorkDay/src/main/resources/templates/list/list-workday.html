@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/base}">
+
+<head>
+<meta charset="UTF-8">
+<title th:text="#{list.menu.workday}"></title>
+</head>
+<body>
+	<div layout:fragment="contenido">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-offset-1 col-md-10">
+					<div class="pull-right">
+						<a class="btn btn-primary">Nuevo producto</a>
+
+					</div>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Nombre jornada</th>
+								<th>Numero de horas</th>
+
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="workday : ${workdays}">
+								<td th:text="${workday.name}"></td>
+								<td th:text="${workday.numberHour}"></td>
+
+							</tr>
+						</tbody>
+					</table>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
