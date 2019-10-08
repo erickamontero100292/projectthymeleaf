@@ -1,5 +1,6 @@
 drop table workday if exists;
 drop table employee if exists;
+drop table registry if exists;
 
 
 drop sequence if exists hibernate_sequence;
@@ -21,5 +22,15 @@ create table employee (
 	primary key (id)
 );
 
+create table registry (
+	id bigint not null, 
+	employee_id  bigint, 
+	date_registry  timestamp, 
+	hours bigint, 
+	primary key (id)
+);
+
+
 
 alter table employee add constraint fk_employee_workday foreign key (workday_id) references workday;
+alter table registry add constraint fk_employee_id foreign key (employee_id) references employee;
