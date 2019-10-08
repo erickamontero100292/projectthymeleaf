@@ -19,7 +19,9 @@ public class Workday {
 	
 	private String name;
 	
-	private Long numberHour;
+	private Long numberDailyHour;
+	
+	private Long numberWeekHour;
 
 	public Long getId() {
 		return id;
@@ -37,23 +39,42 @@ public class Workday {
 		this.name = name;
 	}
 
-	public Long getNumberHour() {
-		return numberHour;
+	
+
+	public Long getNumberWeekHour() {
+		return numberWeekHour;
 	}
 
-	public void setNumberHour(Long numberHour) {
-		this.numberHour = numberHour;
+	public void setNumberWeekHour(Long numberWeekHour) {
+		this.numberWeekHour = numberWeekHour;
 	}
 
-	public Workday(Long id, String name, Long numberHour) {
+	public Workday(Long id, String name, Long numberDailyHour) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.numberHour = numberHour;
+		this.numberDailyHour = numberDailyHour;
 	}
+
+	public Long getNumberDailyHour() {
+		return numberDailyHour;
+	}
+
+	public void setNumberDailyHour(Long numberDailyHour) {
+		this.numberDailyHour = numberDailyHour;
+	}
+
 
 	public Workday() {
 		super();
+	}
+
+	public Workday(Long id, String name, Long numberDailyHour, Long numberWeekHour) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.numberDailyHour = numberDailyHour;
+		this.numberWeekHour = numberWeekHour;
 	}
 	
 	

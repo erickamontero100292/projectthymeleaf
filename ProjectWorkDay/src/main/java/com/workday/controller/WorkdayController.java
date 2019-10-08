@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.workday.configuration.PropertiesConfiguration;
 import com.workday.model.Workday;
 import com.workday.services.WorkDayService;
 
@@ -22,15 +23,16 @@ public class WorkdayController {
 	@Autowired
 	private WorkDayService workdayService;
 
-	
-	
+	@Autowired
+	private PropertiesConfiguration properties;
+
 	@GetMapping("/")
 	public String index(Model model) {
 		List<Workday> workDays = new ArrayList<Workday>(workdayService.findAll());
-		model.addAttribute("workdays",workDays);
+		model.addAttribute("workdays", workDays);
 		return "list/list-workday";
 	}
-	
+
 	@GetMapping("/new")
 	public String nerWorkDay(Model model) {
 		model.addAttribute("work", new Workday());
@@ -39,47 +41,47 @@ public class WorkdayController {
 
 	@PostMapping("/new/submit")
 	public String submitNewWorkDay(@ModelAttribute("workday") Workday workday, Model model) {
-
+		long numberHourWeek = (properties.getDaysWeek() * workday.getNumberDailyHour());
+		workday.setNumberWeekHour(numberHourWeek);
 		workdayService.save(workday);
 		List<Workday> workDays = new ArrayList<Workday>(workdayService.findAll());
-		model.addAttribute("workdays",workDays);
-		
+		model.addAttribute("workdays", workDays);
+
 		return "list/list-workday";
 	}
 
 	@GetMapping("/list")
 	public String listWorkDay(Model model) {
 		List<Workday> workDays = new ArrayList<Workday>(workdayService.findAll());
-		model.addAttribute("workdays",workDays);
+		model.addAttribute("workdays", workDays);
 		return "list/list-workday";
 	}
-	
+
 	@GetMapping("/edit/{id}")
-	public String editWorkDay(@PathVariable ("id") Long id, Model model) {
-		
-		String url ="";
-		Workday workday= workdayService.findById(id);
-		
-		if(workday != null) {
+	public String editWorkDay(@PathVariable("id") Long id, Model model) {
+
+		String url = "";
+		Workday workday = workdayService.findById(id);
+
+		if (workday != null) {
 			model.addAttribute("work", workday);
-			url="create/form-workday";
-			
-		}else {
-			url="redirect:/create/workday/";
+			url = "create/form-workday";
+
+		} else {
+			url = "redirect:/create/workday/";
 		}
 		return url;
 	}
-	
+
 	@GetMapping("/delete/{id}")
-	public String deleteWorkDay(@PathVariable ("id") Long id, Model model) {
-		
-		String url ="";
-		Workday workday= workdayService.findById(id);
-		
-		
-		if(workday != null) {
+	public String deleteWorkDay(@PathVariable("id") Long id, Model model) {
+
+		String url = "";
+		Workday workday = workdayService.findById(id);
+
+		if (workday != null) {
 			workdayService.delete(id);
-			url="redirect:/create/workday/";
+			url = "redirect:/create/workday/";
 		}
 		return url;
 	}

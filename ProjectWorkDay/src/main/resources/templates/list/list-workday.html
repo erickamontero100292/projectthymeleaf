@@ -21,14 +21,17 @@
 						<thead>
 							<tr>
 								<th>Nombre jornada</th>
-								<th>Numero de horas</th>
+								<th>Numero de horas diarias</th>
+								<th>Numero de horas semanales</th>
 
 							</tr>
 						</thead>
 						<tbody>
 							<tr th:each="workday : ${workdays}">
 								<td th:text="${workday.name}"></td>
-								<td th:text="${workday.numberHour}"></td>
+								<td th:text="${workday.numberDailyHour != null}? ${workday.numberDailyHour} : '0'"></td>
+								<td th:text="${workday.numberWeekHour != null}? ${workday.numberWeekHour} : '0'"></td>
+
 								<td class="operaciones"><a
 									th:href="@{/create/workday/edit/{id}(id=${workday.id})}"
 									class="btn btn-primary">Editar</a> <a
