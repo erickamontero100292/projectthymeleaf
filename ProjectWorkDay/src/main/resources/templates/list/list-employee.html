@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/base}">
+
+<head>
+<meta charset="UTF-8">
+<title th:text="#{list.menu.workday}"></title>
+</head>
+<body>
+	<div layout:fragment="contenido">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-offset-1 col-md-10">
+					<div class="pull-right">
+						<a th:href="@{/create/employee/new}" class="btn btn-primary"
+							th:text="#{create.menu.employee}">Nuevo empleado</a>
+
+					</div>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Nombre empleado</th>
+								<th>Nombre de la jornada</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="employee : ${employees}">
+								<td th:text="${employee.name}"></td>
+								<td th:text="${employee.workday.name}"></td>
+								<td class="operaciones"><a
+									th:href="@{/create/employee/edit/{id}(id=${employee.id})}"
+									class="btn btn-primary">Editar</a> <a
+									th:href="@{/create/employee/delete/{id}(id=${employee.id})}"
+									type="button" class="btn btn-danger">Borrar</a>
+							</tr>
+						</tbody>
+					</table>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
