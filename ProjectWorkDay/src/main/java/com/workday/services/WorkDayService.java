@@ -25,5 +25,10 @@ public class WorkDayService {
 	public List<Workday> findAll() {
 		return repository.findAll();
 	}
+	
+	public Workday findById(Long id) {
+		return repository.findById(id).orElse(null);
+		
+	}
 
 }
