@@ -29,9 +29,11 @@
 							<tr th:each="workday : ${workdays}">
 								<td th:text="${workday.name}"></td>
 								<td th:text="${workday.numberHour}"></td>
-								<td class="operaciones"><a th:href="@{/create/workday/edit/{id}(id=${workday.id})}" class="btn btn-primary">Editar</a>
-
-									<button type="button" class="btn btn-danger" th:onclick="">Borrar</button>
+								<td class="operaciones"><a
+									th:href="@{/create/workday/edit/{id}(id=${workday.id})}"
+									class="btn btn-primary">Editar</a> <a
+									th:href="@{/create/workday/delete/{id}(id=${workday.id})}"
+									type="button" class="btn btn-danger">Borrar</a>
 							</tr>
 						</tbody>
 					</table>

@@ -69,5 +69,19 @@ public class WorkdayController {
 		}
 		return url;
 	}
+	
+	@GetMapping("/delete/{id}")
+	public String deleteWorkDay(@PathVariable ("id") Long id, Model model) {
+		
+		String url ="";
+		Workday workday= workdayService.findById(id);
+		
+		
+		if(workday != null) {
+			workdayService.delete(id);
+			url="redirect:/create/workday/";
+		}
+		return url;
+	}
 
 }

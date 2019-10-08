@@ -30,5 +30,11 @@ public class WorkDayService {
 		return repository.findById(id).orElse(null);
 		
 	}
+	
+	public Workday delete(Long id) {
+		Workday workday = findById(id);
+		repository.delete(workday);
+		return workday;
+	}
 
 }
