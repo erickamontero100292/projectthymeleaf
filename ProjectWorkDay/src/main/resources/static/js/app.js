@@ -1,9 +1,9 @@
 $(document).ready(
 		function() {
-
+				console.log("prueba");
 			$('#form-employee :submit').click(function(event) {
 						// Evitamos que se envíe el formulario
-						event.preventDefault();
+						/*event.preventDefault();
 
 						// Tomamos el número de workdays
 						// y lo asignamos al campo oculto para enviarlo
@@ -13,6 +13,7 @@ $(document).ready(
 										+ '"]').data('value');
 						$('#workday').val(valueAsLong);
 
-						$('#form-employee').submit();
+						$('#form-employee').submit();*/
+						console.log("prueba2");
 					});
 		});
