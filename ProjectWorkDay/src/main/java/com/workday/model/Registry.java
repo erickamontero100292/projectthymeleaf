@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -24,7 +25,7 @@ public class Registry {
 	private Long id;
 	
 	@CreatedDate
-	private Date fecha;
+	private LocalDateTime dateRegistry;
 	
 	@NotNull
 	@ManyToOne
@@ -41,12 +42,12 @@ public class Registry {
 		this.id = id;
 	}
 
-	public Date getFecha() {
-		return fecha;
+	public LocalDateTime getDateRegistry() {
+		return dateRegistry;
 	}
 
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
+	public void setDateRegistry(LocalDateTime dateRegistry) {
+		this.dateRegistry = dateRegistry;
 	}
 
 	public Employee getEmployee() {
@@ -65,10 +66,10 @@ public class Registry {
 		this.hours = hours;
 	}
 
-	public Registry(Long id, Date fecha, @NotNull Employee employee, @NotNull Long hours) {
+	public Registry(Long id, LocalDateTime dateRegistry, @NotNull Employee employee, @NotNull Long hours) {
 		super();
 		this.id = id;
-		this.fecha = fecha;
+		this.dateRegistry = dateRegistry;
 		this.employee = employee;
 		this.hours = hours;
 	}
