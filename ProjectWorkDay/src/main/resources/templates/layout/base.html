@@ -45,20 +45,40 @@
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav navbar-right">
-				<li><a th:href="@{''(lang=es_ES)}">Español</a></li>
+					<li><a th:href="@{''(lang=es_ES)}">Español</a></li>
 					<li><a th:href="@{''(lang=en_GB)}">Inglés (UK)</a></li>
-					<li class="active"><a th:href="@{/create/employee/new}"
-						th:text="#{create.menu.employee}">Home</a></li>
-					<li><a th:href="@{/create/workday/new}"
-						th:text="#{create.menu.workday}">About</a></li>
-					<li><a th:href="@{/create/workday/list}"
-						th:text="#{list.menu.workday}">Lista de jornada</a></li>
-					<li><a th:href="@{/create/employee/list}"
-						th:text="#{list.menu.employee}">Lista de empleados</a></li>
-					<li><a th:href="@{/create/registry/new}"
-						th:text="#{create.menu.registry}">Crear registro</a></li>
-					<li><a th:href="@{/create/registry/list}"
-						th:text="#{list.menu.registry}">Lista de registros</a></li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown" role="button" aria-haspopup="true"
+						aria-expanded="false"> <span th:text="#{create.menu.employee}">Gestionar
+								empleados</span> <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li class="active"><a th:href="@{/create/employee/new}"
+								th:text="#{create.menu.employee}">Crear empleado</a></li>
+							<li><a th:href="@{/create/employee/list}"
+								th:text="#{list.menu.employee}">Lista de empleados</a></li>
+						</ul></li>
+
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown" role="button" aria-haspopup="true"
+						aria-expanded="false"> <span th:text="#{create.menu.workday}">Gestionar
+								jornada laboral</span> <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a th:href="@{/create/workday/new}"
+								th:text="#{create.menu.workday}">Crear Jornada</a></li>
+							<li><a th:href="@{/create/workday/list}"
+								th:text="#{list.menu.workday}">Lista de jornada</a></li>
+						</ul></li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown" role="button" aria-haspopup="true"
+						aria-expanded="false"> <span th:text="#{create.menu.registry}">Gestionar
+							registros</span> <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a th:href="@{/create/registry/new}"
+								th:text="#{create.menu.registry}">Crear registro</a></li>
+							<li><a th:href="@{/create/registry/list}"
+								th:text="#{list.menu.registry}">Lista de registros</a></li>
+						</ul></li>
+
 				</ul>
 			</div>
 			<!--/.nav-collapse -->
