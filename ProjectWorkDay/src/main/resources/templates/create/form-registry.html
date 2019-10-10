@@ -19,13 +19,13 @@ body {
 				<div class="col-md-offset-2 col-md-8">
 					<form method="post" action="#" th:object="${registry}" th:action="@{/create/registry/new/submit}">
 						<h1>
-							<span th:text="${registry.id} ? 'Editar' : 'Nuevo regsitro'"></span>
+							<span th:text="${registry.id} ? #{label.editRegistry} : #{label.newRegistry}"></span>
 
 						</h1>
 						<input type="hidden" th:field="*{id}" id="id" />
 						<div class="form-group"
 							th:classappend="${#fields.hasErrors('employee')} ? 'has-error'">
-							<label class="control-label" for="employee">Empleados</label> <select
+							<label class="control-label" for="employee" th:text="#{label.employees}">Empleados</label> <select
 								th:field="*{employee}" class="form-control">
 								<option value="-1">---</option>
 								<option th:each="employee : ${employees}"
@@ -34,12 +34,12 @@ body {
 								th:errors="*{employee}" class="help-block" id="employee-error">Errores</span>
 						</div>
 							<div class="form-group">
-							<label class="control-label" for="hour">Horas</label> <input
-								type="number" min="0" max="24"  class="form-control" id="hour" placeholder="Horas"
+							<label class="control-label" for="hour" th:text="#{label.numberHour}">Horas</label> <input
+								type="number" min="0" max="24"  class="form-control" id="hour" th:placeholder="#{label.hours}"
 								required="required" th:field="*{hours}">
 						</div>
 
-						<button type="submit" class="btn btn-default">Enviar</button>
+						<button type="submit" class="btn btn-default" th:text="#{label.send}">Enviar</button>
 					</form>
 				</div>
 			</div>

@@ -19,18 +19,18 @@ body {
 					<form method="post" action="#" th:object="${employee}"
 						th:action="@{/create/employee/new/submit}" id="form-employee">
 						<h1>
-							<span th:text="${employee.id} ? 'Editar' : 'Nuevo trabajador'"></span>
+							<span th:text="${employee.id} ? #{label.editEmployee} : #{label.newEmployee}"></span>
 
 						</h1>
 						<input type="hidden" th:field="*{id}" id="id" />
 						<div class="form-group">
-							<label class="control-label" for="name">Nombre</label> <input
-								type="text" class="form-control" id="name" placeholder="Nombre"
+							<label class="control-label" for="name" th:text="#{label.name}">Nombre</label> <input
+								type="text" class="form-control" id="name" th:placeholder="#{label.name}"
 								required="required" th:field="*{name}">
 						</div>
 						<div class="form-group"
 							th:classappend="${#fields.hasErrors('workday')} ? 'has-error'">
-							<label class="control-label" for="workday">Jornada
+							<label class="control-label" for="workday" th:text="#{label.workday}">Jornada
 								Laboral</label> <select th:field="*{workday}" class="form-control">
 								<option value="-1">---</option>
 								<option th:each="workday : ${workdays}" th:value="${workday.id}"
@@ -40,7 +40,7 @@ body {
 
 						</div>
 
-						<button type="submit" class="btn btn-default">Enviar</button>
+						<button type="submit" class="btn btn-default" th:text="#{label.send}">Enviar</button>
 					</form>
 				</div>
 			</div>

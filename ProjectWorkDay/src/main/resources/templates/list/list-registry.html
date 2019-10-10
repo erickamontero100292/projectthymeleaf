@@ -18,17 +18,17 @@ body {
 			<div class="row">
 				<div class="col-md-offset-1 col-md-10">
 					<div class="pull-right">
-						<a th:href="@{/create/employee/new}" class="btn btn-primary"
-							th:text="#{create.menu.employee}">Nuevo empleado</a>
+						<a th:href="@{/create/registry/new}" class="btn btn-primary"
+							th:text="#{label.newRegistry}">Nuevo registro</a>
 
 					</div>
 					<table class="table">
 						<thead>
 							<tr>
-								<th>Nombre empleado</th>
-								<th>Nombre de la jornada</th>
-								<th>Horas trabajadas</th>
-								<th>Dia trabajado</th>
+								<th th:text="#{label.nameEmployee}">Nombre empleado</th>
+								<th th:text="#{label.nameWorkday}">Nombre de la jornada</th>
+								<th th:text="#{label.hoursWorked}">Horas trabajadas</th>
+								<th th:text="#{label.date}">Dia trabajado</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -36,9 +36,10 @@ body {
 								<td th:text="${registry.employee.name}"></td>
 								<td th:text="${registry.employee.workday.name}"></td>
 								<td th:text="${registry.hours}"></td>
-								<td th:text="${#temporals.format(registry.dateRegistry, 'dd/MMM/yyyy HH:mm')}"></td>
-								<td class="operaciones"><a class="btn btn-primary">Editar</a>
-									<a type="button" class="btn btn-danger">Borrar</a></td>
+								<td
+									th:text="${#temporals.format(registry.dateRegistry, 'dd/MMM/yyyy HH:mm')}" ></td>
+								<td class="operaciones"><a class="btn btn-primary" th:text="#{label.edit}">Editar</a>
+									<a type="button" class="btn btn-danger" th:text="#{label.delete}">Borrar</a></td>
 							</tr>
 						</tbody>
 					</table>
