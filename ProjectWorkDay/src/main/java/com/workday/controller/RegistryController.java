@@ -28,6 +28,26 @@ public class RegistryController {
 	@Autowired
 	private RegistryService registryService;
 	
+	
+
+	@GetMapping("/")
+	public String index(Model model) {
+		List<Registry> registrys = new ArrayList<Registry>(registryService.findAll());
+
+		model.addAttribute("registrys", registrys);
+		return "list/list-registry";
+	}
+	
+
+	@GetMapping("/list")
+	public String listRegistry(Model model) {
+		List<Registry> registrys = new ArrayList<Registry>(registryService.findAll());
+
+		model.addAttribute("registrys", registrys);
+		return "list/list-registry";
+	}
+	
+	
 	@GetMapping("/new")
 	public String newemployee(Model model) {
 
@@ -38,12 +58,14 @@ public class RegistryController {
 	
 	@PostMapping("/new/submit")
 	public String submitNewWorkDay(@ModelAttribute("registry") Registry registry, Model model) {
-		String url = "list/list-employee";
+		String url = "list/list-registry";
 		LocalDateTime dateRegistry = LocalDateTime.now();
 		registry.setDateRegistry(dateRegistry );
 		registryService.save(registry);
-		List<Employee> employees = new ArrayList<Employee>(employeeService.findAll());
-		model.addAttribute("employees",employees);
+		
+		List<Registry> registrys = new ArrayList<Registry>(registryService.findAll());
+
+		model.addAttribute("registrys", registrys);
 
 		return url;
 	}

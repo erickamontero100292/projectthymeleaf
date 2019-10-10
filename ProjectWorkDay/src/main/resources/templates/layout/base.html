@@ -55,6 +55,8 @@
 						th:text="#{list.menu.employee}">Lista de empleados</a></li>
 					<li><a th:href="@{/create/registry/new}"
 						th:text="#{create.menu.registry}">Crear registro</a></li>
+					<li><a th:href="@{/create/registry/list}"
+						th:text="#{list.menu.registry}">Lista de registros</a></li>
 				</ul>
 			</div>
 			<!--/.nav-collapse -->
@@ -65,7 +67,7 @@
 		<p>Contenido de la página</p>
 	</div>
 
-	
+
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"
 		th:src="@{/webjars/jquery/jquery.min.js}"></script>
@@ -73,7 +75,7 @@
 	<script
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
 		th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-		
-	<th:block th:replace="${scripts}"></th:block>	
-		
+
+	<th:block th:replace="${scripts}"></th:block>
+
 </body>
