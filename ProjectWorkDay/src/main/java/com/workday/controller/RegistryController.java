@@ -10,10 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.workday.model.Employee;
 import com.workday.model.Registry;
 import com.workday.model.Workday;
 import com.workday.services.EmployeeService;
@@ -69,4 +69,35 @@ public class RegistryController {
 
 		return url;
 	}
+	
+	@GetMapping("/edit/{id}")
+	public String editRegistry(@PathVariable("id") Long id, Model model) {
+
+		String url = "";
+		Registry registry = registryService.findById(id);
+
+		if (registry != null) {
+			model.addAttribute("registry", registry);
+			model.addAttribute("employees", employeeService.findAll());
+			url = "create/form-registry";
+
+		} else {
+			url = "redirect:/create/registry/";
+		}
+		return url;
+	}
+
+	@GetMapping("/delete/{id}")
+	public String deleteRegistry(@PathVariable("id") Long id, Model model) {
+
+		String url = "";
+		Registry workday = registryService.findById(id);
+
+		if (workday != null) {
+			registryService.delete(id);
+			url = "redirect:/create/registry/";
+		}
+		return url;
+	}
+
 }

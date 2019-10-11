@@ -38,8 +38,8 @@ body {
 								<td th:text="${registry.hours}"></td>
 								<td
 									th:text="${#temporals.format(registry.dateRegistry, 'dd/MMM/yyyy HH:mm')}" ></td>
-								<td class="operaciones"><a class="btn btn-primary" th:text="#{label.edit}">Editar</a>
-									<a type="button" class="btn btn-danger" th:text="#{label.delete}">Borrar</a></td>
+								<td class="operaciones"><a class="btn btn-primary" th:text="#{label.edit}" 		th:href="@{/create/registry/edit/{id}(id=${registry.id})}">Editar</a>
+									<a type="button" class="btn btn-danger" th:text="#{label.delete}" th:href="@{/create/registry/delete/{id}(id=${registry.id})}">Borrar</a></td>
 							</tr>
 						</tbody>
 					</table>
