@@ -5,15 +5,20 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.workday.model.Employee;
 import com.workday.model.Registry;
 import com.workday.model.Workday;
 import com.workday.services.EmployeeService;
@@ -57,16 +62,26 @@ public class RegistryController {
 	}
 	
 	@PostMapping("/new/submit")
-	public String submitNewWorkDay(@ModelAttribute("registry") Registry registry, Model model) {
+	public String submitNewWorkDay(@Valid Registry registry, BindingResult bindingResult, Model model) {
 		String url = "list/list-registry";
 		LocalDateTime dateRegistry = LocalDateTime.now();
-		registry.setDateRegistry(dateRegistry );
-		registryService.save(registry);
+		registry.setDateRegistry(dateRegistry );		
 		
-		List<Registry> registrys = new ArrayList<Registry>(registryService.findAll());
+		List<Employee> employees = new ArrayList<Employee>(employeeService.findAll());
+		if(registry.getHours() > 20) {
+		bindingResult.rejectValue("hours", "error.registry", "No puede ser mayor a: "+ 20);
+		}
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("employees",employees);
+			url = "create/form-registry";
+		} else {
+			registryService.save(registry);
+			List<Registry> registrys = new ArrayList<Registry>(registryService.findAll());
+			model.addAttribute("registrys", registrys);
 
-		model.addAttribute("registrys", registrys);
-
+		}
+		
+		
 		return url;
 	}
 	
