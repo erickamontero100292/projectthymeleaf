@@ -20,8 +20,8 @@ public class Employee {
 
 	@NotEmpty
 	private String name;
-
-	@NotNull
+	
+	@NotNull(message = "{error.workday.null}")
 	@ManyToOne
 	private Workday workday;
 

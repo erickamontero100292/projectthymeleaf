@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,7 +46,7 @@ public class EmployeeController {
 	
 
 	@GetMapping("/new")
-	public String newemployee(Model model) {
+	public String newEmployee(Model model) {
 
 		model.addAttribute("employee", new Employee());
 		model.addAttribute("workdays", workdayService.findAll());
@@ -53,7 +54,7 @@ public class EmployeeController {
 	}
 
 	@PostMapping("/new/submit")
-	public String newEmployee(@Valid Employee employee, BindingResult bindingResult, Model model) {
+	public String newEmployee(@Valid @ModelAttribute("employee")Employee employee, BindingResult bindingResult, Model model) {
 		String url = "list/list-employee";
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("workdays", workdayService.findAll());
