@@ -16,67 +16,62 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
-@Data 
+@Data
 @NoArgsConstructor
 @Entity
 public class Registry {
-	@Id
-	@GeneratedValue
-	private Long id;
-	
-	@CreatedDate
-	private LocalDateTime dateRegistry;
-	
-	@NotNull
-	@ManyToOne
-	private Employee employee;
+    @Id
+    @GeneratedValue
+    private Long id;
 
-	@NotNull
-	private Long hours;
+    @CreatedDate
+    private LocalDateTime dateRegistry;
 
-	public Long getId() {
-		return id;
-	}
+    @NotNull
+    @ManyToOne
+    private Employee employee;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @NotNull
+    private Long hours;
 
-	public LocalDateTime getDateRegistry() {
-		return dateRegistry;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setDateRegistry(LocalDateTime dateRegistry) {
-		this.dateRegistry = dateRegistry;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public Employee getEmployee() {
-		return employee;
-	}
+    public LocalDateTime getDateRegistry() {
+        return dateRegistry;
+    }
 
-	public void setEmployee(Employee employee) {
-		this.employee = employee;
-	}
+    public void setDateRegistry(LocalDateTime dateRegistry) {
+        this.dateRegistry = dateRegistry;
+    }
 
-	public Long getHours() {
-		return hours;
-	}
+    public Employee getEmployee() {
+        return employee;
+    }
 
-	public void setHours(Long hours) {
-		this.hours = hours;
-	}
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
 
-	public Registry(Long id, LocalDateTime dateRegistry, @NotNull Employee employee, @NotNull Long hours) {
-		super();
-		this.id = id;
-		this.dateRegistry = dateRegistry;
-		this.employee = employee;
-		this.hours = hours;
-	}
+    public Long getHours() {
+        return hours;
+    }
 
-	public Registry() {
-		super();
-	}
-	
-	
+    public void setHours(Long hours) {
+        this.hours = hours;
+    }
+
+    public Registry(Long id, LocalDateTime dateRegistry, @NotNull Employee employee, @NotNull Long hours) {
+        super();
+        this.id = id;
+        this.dateRegistry = dateRegistry;
+        this.employee = employee;
+        this.hours = hours;
+    }
+
 }
