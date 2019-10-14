@@ -3,6 +3,7 @@ package com.workday.controller;
 import com.workday.model.Employee;
 import com.workday.model.UserApp;
 import com.workday.services.EmployeeService;
+import com.workday.services.I18nService;
 import com.workday.services.UserAppService;
 import com.workday.services.WorkDayService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ public class EmployeeController {
     public static final String WORKDAYS = "workdays";
     public static final String EMPLOYEE = "employee";
     public static final String LIST_LIST_EMPLOYEE = "list/list-employee";
+
     @Autowired
     private WorkDayService workdayService;
     @Autowired
@@ -32,6 +34,9 @@ public class EmployeeController {
 
     @Autowired
     private UserAppService userAppService;
+
+    @Autowired
+    private I18nService i18nService;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -105,6 +110,22 @@ public class EmployeeController {
             url = "redirect:/create/employee/";
         }
         return url;
+    }
+
+    @GetMapping("/delete/show/{id}")
+    public String showModalDeleteEmployee(@PathVariable("id") Long id, Model model) {
+
+        Employee employee = employeeService.findById(id);
+        String deleteMessage = "";
+        if (employee != null)
+            deleteMessage = i18nService.getMessage("employee.delete.message", new Object[]{employee.getName()});
+        else
+            return "redirect:/admin/producto/?error=true";
+
+        model.addAttribute("delete_url", "/create/employee/delete/" + id);
+        model.addAttribute("delete_title", i18nService.getMessage("label.deleteEmployee"));
+        model.addAttribute("delete_message", deleteMessage);
+        return "fragments/modal::modal_delete";
     }
 
     private UserApp saveUser(BindingResult bindingResult, UserApp userApp) {

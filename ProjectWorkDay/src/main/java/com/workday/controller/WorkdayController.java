@@ -3,6 +3,7 @@ package com.workday.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.workday.services.I18nService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +26,9 @@ public class WorkdayController {
 
 	@Autowired
 	private PropertiesConfiguration properties;
+
+	@Autowired
+	private I18nService i18nService;
 
 	@GetMapping("/")
 	public String index(Model model) {
@@ -84,6 +88,21 @@ public class WorkdayController {
 			url = "redirect:/create/workday/";
 		}
 		return url;
+	}
+	@GetMapping("/delete/show/{id}")
+	public String showModalDeleteEmployee(@PathVariable("id") Long id, Model model) {
+
+		Workday workday = workdayService.findById(id);
+		String deleteMessage = "";
+		if (workday != null)
+			deleteMessage = i18nService.getMessage("workday.delete.message", new Object[]{workday.getName()});
+		else
+			return "redirect:/admin/producto/?error=true";
+
+		model.addAttribute("delete_url", "/create/workday/delete/" + id);
+		model.addAttribute("delete_title", i18nService.getMessage("label.deleteWorkday"));
+		model.addAttribute("delete_message", deleteMessage);
+		return "fragments/modal::modal_delete";
 	}
 
 }
