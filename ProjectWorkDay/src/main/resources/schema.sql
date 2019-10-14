@@ -41,6 +41,7 @@ create table userapp
     date_create timestamp,
     email       varchar(512),
     password    varchar(512),
+    rol    varchar(512),
     primary key (id)
 );
 

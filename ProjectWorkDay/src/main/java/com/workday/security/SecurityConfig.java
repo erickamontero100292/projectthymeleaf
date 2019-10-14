@@ -11,45 +11,45 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	
-	@Autowired
-	UserDetailsService userDetailsService;
-	
-	
-	@Bean
-	public BCryptPasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
 
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-	}
+    @Autowired
+    UserDetailsService userDetailsService;
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http
-			.authorizeRequests()
-				.antMatchers("/", "/webjars/**","/img/**", "/css/**", "/h2-console/**", "/public/**", "/auth/**", "/files/**").permitAll()
-				.anyRequest().authenticated()
-				.and()
-			.formLogin()
-				.loginPage("/auth/login")
-				.defaultSuccessUrl("/public/index", true)
-				.loginProcessingUrl("/auth/login-post")
-				.permitAll()
-				.and()
-			.logout()
-				.logoutUrl("/auth/logout") 
-				.logoutSuccessUrl("/public/index");
-		
-		http.csrf().disable();
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Override
+    //CONFIGURACION DE LA AUTENTICACION
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
+                .antMatchers("/", "/webjars/**", "/img/**", "/css/**", "/h2-console/**", "/public/**", "/auth/**", "/files/**").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/auth/login")
+                .defaultSuccessUrl("/public/index", true)
+                .loginProcessingUrl("/auth/login-post")
+                .permitAll()
+                .and()
+                .logout()
+                .logoutUrl("/auth/logout")
+                .logoutSuccessUrl("/public/index");
+
+        http.csrf().disable();
         http.headers().frameOptions().disable();
-		
-	}
+
+    }
 }

@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Table(name = "userapp")
 public class UserApp {
 
     @Id
@@ -14,6 +15,7 @@ public class UserApp {
 
     private String email;
     private String password;
+    private String rol;
 
     public long getId() {
         return id;
@@ -47,10 +49,25 @@ public class UserApp {
         this.password = password;
     }
 
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
+
     public UserApp(Date dateCreate, String email, String password) {
         this.dateCreate = dateCreate;
         this.email = email;
         this.password = password;
+    }
+
+    public UserApp(Date dateCreate, String email, String password, String rol) {
+        this.dateCreate = dateCreate;
+        this.email = email;
+        this.password = password;
+        this.rol = rol;
     }
 
     public UserApp() {

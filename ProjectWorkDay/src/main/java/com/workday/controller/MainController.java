@@ -7,14 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/public")
 public class MainController {
-	
-	@GetMapping({"/", "/welcome"})
-	public String welcome(@RequestParam(name="name", required=false, defaultValue="Mundo") String name, Model model) {
-		model.addAttribute("name", name);
-		model.addAttribute("saludo", "Un saludo para todos los programadores del mundo");
-		model.addAttribute("boton", "Ir a...");
+
+	@GetMapping({"/", "/index"})
+	public String index() {
+
 		return "index";
 	}
 

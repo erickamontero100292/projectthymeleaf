@@ -4575,3 +4575,47 @@ Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/mon
 	at org.h2.mvstore.FileStore.open(FileStore.java:172)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:390)
 	... 62 more
+2019-10-13 18:31:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "USER_APP" no encontrada
+Table "USER_APP" not found; SQL statement:
+select userapp0_.id as id1_2_, userapp0_.date_create as date_cre2_2_, userapp0_.email as email3_2_, userapp0_.password as password4_2_ from user_app userapp0_ where userapp0_.email=? limit ? [42102-199]
+2019-10-13 18:32:29 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "USER_APP" no encontrada
+Table "USER_APP" not found; SQL statement:
+select userapp0_.id as id1_2_, userapp0_.date_create as date_cre2_2_, userapp0_.email as email3_2_, userapp0_.password as password4_2_ from user_app userapp0_ where userapp0_.email=? limit ? [42102-199]
+2019-10-13 18:35:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "USER_APP" no encontrada
+Table "USER_APP" not found; SQL statement:
+select userapp0_.id as id1_2_, userapp0_.date_create as date_cre2_2_, userapp0_.email as email3_2_, userapp0_.password as password4_2_ from user_app userapp0_ where userapp0_.email=? limit ? [42102-199]
+2019-10-13 18:36:10 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "USER_APP" no encontrada
+Table "USER_APP" not found; SQL statement:
+select userapp0_.id as id1_2_, userapp0_.date_create as date_cre2_2_, userapp0_.email as email3_2_, userapp0_.password as password4_2_ from user_app userapp0_ where userapp0_.email=? limit ? [42102-199]
+2019-10-13 18:40:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "USER_APP" no encontrada
+Table "USER_APP" not found; SQL statement:
+select userapp0_.id as id1_2_, userapp0_.date_create as date_cre2_2_, userapp0_.email as email3_2_, userapp0_.password as password4_2_ from user_app userapp0_ where userapp0_.email=? limit ? [42102-199]
+2019-10-13 18:40:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "USER_APP" no encontrada
+Table "USER_APP" not found; SQL statement:
+select userapp0_.id as id1_2_, userapp0_.date_create as date_cre2_2_, userapp0_.email as email3_2_, userapp0_.password as password4_2_ from user_app userapp0_ where userapp0_.email=? limit ? [42102-199]
+2019-10-13 18:41:40 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "USER_APP" no encontrada
+Table "USER_APP" not found; SQL statement:
+select userapp0_.id as id1_2_, userapp0_.date_create as date_cre2_2_, userapp0_.email as email3_2_, userapp0_.password as password4_2_ from user_app userapp0_ where userapp0_.email=? limit ? [42102-199]
+2019-10-13 18:41:42 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "USER_APP" no encontrada
+Table "USER_APP" not found; SQL statement:
+select userapp0_.id as id1_2_, userapp0_.date_create as date_cre2_2_, userapp0_.email as email3_2_, userapp0_.password as password4_2_ from user_app userapp0_ where userapp0_.email=? limit ? [42102-199]
+2019-10-13 18:44:10 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "USER_APP" no encontrada
+Table "USER_APP" not found; SQL statement:
+select userapp0_.id as id1_2_, userapp0_.date_create as date_cre2_2_, userapp0_.email as email3_2_, userapp0_.password as password4_2_ from user_app userapp0_ where userapp0_.email=? limit ? [42102-199]
+2019-10-13 18:45:34 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "USER_APP" no encontrada
+Table "USER_APP" not found; SQL statement:
+select userapp0_.id as id1_2_0_, userapp0_.date_create as date_cre2_2_0_, userapp0_.email as email3_2_0_, userapp0_.password as password4_2_0_ from user_app userapp0_ where userapp0_.id=? [42102-199]
+2019-10-13 18:45:45 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "USER_APP" no encontrada
+Table "USER_APP" not found; SQL statement:
+select userapp0_.id as id1_2_, userapp0_.date_create as date_cre2_2_, userapp0_.email as email3_2_, userapp0_.password as password4_2_ from user_app userapp0_ where userapp0_.email=? limit ? [42102-199]
