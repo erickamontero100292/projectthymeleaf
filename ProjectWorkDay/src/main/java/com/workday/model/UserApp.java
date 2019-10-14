@@ -13,7 +13,7 @@ public class UserApp {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreate;
 
-    private String email;
+    private String user;
     private String password;
     private String rol;
 
@@ -33,12 +33,12 @@ public class UserApp {
         this.dateCreate = dateCreate;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUser() {
+        return user;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUser(String user) {
+        this.user = user;
     }
 
     public String getPassword() {
@@ -57,15 +57,15 @@ public class UserApp {
         this.rol = rol;
     }
 
-    public UserApp(Date dateCreate, String email, String password) {
+    public UserApp(Date dateCreate, String user, String password) {
         this.dateCreate = dateCreate;
-        this.email = email;
+        this.user = user;
         this.password = password;
     }
 
-    public UserApp(Date dateCreate, String email, String password, String rol) {
+    public UserApp(Date dateCreate, String user, String password, String rol) {
         this.dateCreate = dateCreate;
-        this.email = email;
+        this.user = user;
         this.password = password;
         this.rol = rol;
     }
