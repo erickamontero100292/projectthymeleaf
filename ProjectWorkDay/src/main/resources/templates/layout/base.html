@@ -63,23 +63,6 @@
                                         class="glyphicon glyphicon-user"></span>
                                 Login
                             </a>
-
-                            <th:block sec:authorize="isAuthenticated()">
-                                <a href="#" class="dropdown-toggle"
-                                   data-toggle="dropdown" role="button">
-                                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                                    <span th:text="${#authentication.name}" style="padding: 0 5px;">Nombre</span>
-                                    <span
-                                            class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="#" th:onclick="javascript:doLogout();">Salir</a>
-                                    </li>
-                                    <form th:action="@{/auth/logout}" method="POST" th:hidden="true"
-                                          id="logoutForm"></form>
-                                </ul>
-                            </th:block>
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle"
@@ -148,12 +131,32 @@
                                 </li>
                             </ul>
                         </li>
+                        <li>
+                            <th:block sec:authorize="isAuthenticated()">
+                                <a href="#" class="dropdown-toggle"
+                                   data-toggle="dropdown" role="button">
+                                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                    <span th:text="${#authentication.name}" style="padding: 0 5px;">Nombre</span>
+                                    <span
+                                            class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a
+                                                href="javascript:document.getElementById('logoutForm').submit()">Salir
+                                        </a>
+                                    </li>
+                                </ul>
+
+                            </th:block>
+                        </li>
 
                     </ul>
                 </div>
                 <!--/.nav-collapse -->
             </div>
         </nav>
+        <form th:action="@{/auth/logout}" method="POST" id="logoutForm"></form>
         <!-- El contenido de la página correspondiente -->
         <div th:replace="${contenido}">
             <p>Contenido de la página</p>
