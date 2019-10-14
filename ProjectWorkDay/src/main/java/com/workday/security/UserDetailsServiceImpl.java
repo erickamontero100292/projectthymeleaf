@@ -23,7 +23,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		UserApp usuario = repository.findFirstByEmail(username);
+		UserApp usuario = repository.findFirstByUser(username);
 		UserBuilder builder = null;
 		
 		if (usuario != null) {

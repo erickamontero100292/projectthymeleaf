@@ -39,7 +39,7 @@ create table userapp
 (
     id          bigint not null,
     date_create timestamp,
-    email       varchar(512),
+    user       varchar(512) UNIQUE,
     password    varchar(512),
     rol    varchar(512),
     primary key (id)

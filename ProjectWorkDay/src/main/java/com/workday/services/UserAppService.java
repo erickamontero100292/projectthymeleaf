@@ -4,8 +4,11 @@ package com.workday.services;
 import com.workday.model.UserApp;
 import com.workday.repository.UserAppRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 @Service
 public class UserAppService {
@@ -19,7 +22,10 @@ public class UserAppService {
 
 
     public UserApp save(UserApp userApp) {
+        userApp.setDateCreate(new Date());
+        userApp.setRol("USER");
         userApp.setPassword(passwordEncoder.encode(userApp.getPassword()));
+
         return repository.save(userApp);
     }
 
@@ -27,7 +33,7 @@ public class UserAppService {
         return repository.findById(id).orElse(null);
     }
 
-    public UserApp findByEmail(String email) {
-        return repository.findFirstByEmail(email);
+    public UserApp findFirstByUser(String user) {
+        return repository.findFirstByUser(user);
     }
 }
