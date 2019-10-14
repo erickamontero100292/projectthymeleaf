@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class LoginController {
@@ -33,7 +32,7 @@ public class LoginController {
     @PostMapping("/auth/register")
     public String register(@ModelAttribute UserApp userApp) {
 
-        userAppService.add(userApp);
+        userAppService.save(userApp);
         return "redirect:/auth/login";
     }
 

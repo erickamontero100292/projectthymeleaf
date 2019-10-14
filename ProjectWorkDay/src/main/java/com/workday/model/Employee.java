@@ -23,7 +23,7 @@ public class Employee {
     @ManyToOne
     private Workday workday;
 
-    @NotNull
+   // @NotNull
     @OneToOne
     private UserApp user;
 
@@ -51,6 +51,14 @@ public class Employee {
 
     public Workday getWorkday() {
         return workday;
+    }
+
+    public UserApp getUser() {
+        return user;
+    }
+
+    public void setUser(UserApp user) {
+        this.user = user;
     }
 
     public void setWorkday(Workday workday) {

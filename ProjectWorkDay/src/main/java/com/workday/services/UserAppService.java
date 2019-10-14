@@ -18,9 +18,9 @@ public class UserAppService {
     BCryptPasswordEncoder passwordEncoder;
 
 
-    public UserApp add(UserApp u) {
-        u.setPassword(passwordEncoder.encode(u.getPassword()));
-        return repository.save(u);
+    public UserApp save(UserApp userApp) {
+        userApp.setPassword(passwordEncoder.encode(userApp.getPassword()));
+        return repository.save(userApp);
     }
 
     public UserApp findById(long id) {

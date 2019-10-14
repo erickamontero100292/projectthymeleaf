@@ -1,68 +1,78 @@
 package com.workday.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.validation.Valid;
-
+import com.workday.model.Employee;
+import com.workday.model.UserApp;
+import com.workday.services.EmployeeService;
+import com.workday.services.UserAppService;
+import com.workday.services.WorkDayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import com.workday.model.Employee;
-import com.workday.model.Workday;
-import com.workday.services.EmployeeService;
-import com.workday.services.WorkDayService;
+import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping("/create/employee")
 public class EmployeeController {
 
+	public static final String CREATE_FORM_EMPLOYEE = "create/form-employee";
+	public static final String EMPLOYEES = "employees";
+	public static final String WORKDAYS = "workdays";
+	public static final String EMPLOYEE = "employee";
+	public static final String LIST_LIST_EMPLOYEE = "list/list-employee";
 	@Autowired
 	private WorkDayService workdayService;
 	@Autowired
 	private EmployeeService employeeService;
 
+	@Autowired
+	private UserAppService userAppService;
+
 	@GetMapping("/")
 	public String index(Model model) {
-		List<Employee> employees = new ArrayList<Employee>(employeeService.findAll());
+		List<Employee> employees = new ArrayList<>(employeeService.findAll());
 
-		model.addAttribute("employees", employees);
-		return "list/list-employee";
+		model.addAttribute(EMPLOYEES, employees);
+		return LIST_LIST_EMPLOYEE;
 	}
 	
 	@GetMapping("/list")
 	public String listEmployee(Model model) {
-		List<Employee> employees = new ArrayList<Employee>(employeeService.findAll());
-		model.addAttribute("employees",employees);
-		return "list/list-employee";
+		List<Employee> employees = new ArrayList<>(employeeService.findAll());
+		model.addAttribute(EMPLOYEES,employees);
+		return LIST_LIST_EMPLOYEE;
 	}
 	
 
 	@GetMapping("/new")
 	public String newEmployee(Model model) {
 
-		model.addAttribute("employee", new Employee());
-		model.addAttribute("workdays", workdayService.findAll());
-		return "create/form-employee";
+		model.addAttribute(EMPLOYEE, new Employee());
+		model.addAttribute(WORKDAYS, workdayService.findAll());
+		return CREATE_FORM_EMPLOYEE;
 	}
 
 	@PostMapping("/new/submit")
-	public String newEmployee(@Valid @ModelAttribute("employee")Employee employee, BindingResult bindingResult, Model model) {
-		String url = "list/list-employee";
+	public String newEmployee(@Valid @ModelAttribute(EMPLOYEE)Employee employee, BindingResult bindingResult, Model model) {
+		String url = LIST_LIST_EMPLOYEE;
 		if (bindingResult.hasErrors()) {
-			model.addAttribute("workdays", workdayService.findAll());
-			url = "create/form-employee";
+			model.addAttribute(WORKDAYS, workdayService.findAll());
+			url = CREATE_FORM_EMPLOYEE;
 		} else {
+			UserApp userApp = employee.getUser();
+			userApp.setDateCreate(new Date());
+			userApp.setRol("USER");
+			userApp = userAppService.save(userApp);
+			employee.setUser(userApp);
+
 			employeeService.save(employee);
-			List<Employee> employees = new ArrayList<Employee>(employeeService.findAll());
-			model.addAttribute("employees",employees);
+			List<Employee> employees = new ArrayList<>(employeeService.findAll());
+			model.addAttribute(EMPLOYEES,employees);
 
 		}
 
@@ -76,9 +86,9 @@ public class EmployeeController {
 		Employee employee = employeeService.findById(id);
 
 		if (employee != null) {
-			model.addAttribute("employee", employee);
-			model.addAttribute("workdays", workdayService.findAll());
-			url = "create/form-employee";
+			model.addAttribute(EMPLOYEE, employee);
+			model.addAttribute(WORKDAYS, workdayService.findAll());
+			url = CREATE_FORM_EMPLOYEE;
 
 		} else {
 			url = "redirect:/create/employee/";
