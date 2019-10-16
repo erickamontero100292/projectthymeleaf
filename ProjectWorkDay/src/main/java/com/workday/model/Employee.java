@@ -9,7 +9,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Data
-@NoArgsConstructor
 @Entity
 public class Employee {
     @Id
@@ -75,6 +74,10 @@ public class Employee {
         this.name = name;
         this.workday = workday;
     }
+
+	public Employee() {
+		super();
+	}
 
 
 }

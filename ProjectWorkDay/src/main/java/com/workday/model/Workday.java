@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 
 
 @Data
-@NoArgsConstructor
 @Entity
 public class Workday {
 
@@ -70,6 +69,10 @@ public class Workday {
         this.numberDailyHour = numberDailyHour;
         this.numberWeekHour = numberWeekHour;
     }
+
+	public Workday() {
+		super();
+	}
 
 
 }

@@ -2,6 +2,7 @@ package com.workday.services;
 
 import java.util.List;
 
+import com.workday.model.UserApp;
 import org.springframework.stereotype.Service;
 
 import com.workday.model.Employee;
@@ -40,6 +41,11 @@ public class EmployeeService {
 		Employee employee = findById(id);
 		employeeRepository.delete(employee);
 		return employee;
+	}
+
+	public Employee findByUser(UserApp userApp){
+		return employeeRepository.findByUser(userApp);
+
 	}
 	
 }

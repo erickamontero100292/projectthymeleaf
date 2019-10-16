@@ -1,28 +1,22 @@
 package com.workday.controller;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.validation.Valid;
-
+import com.workday.model.Employee;
+import com.workday.model.Registry;
+import com.workday.model.UserApp;
+import com.workday.services.EmployeeService;
+import com.workday.services.RegistryService;
+import com.workday.services.UserAppService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import com.workday.model.Employee;
-import com.workday.model.Registry;
-import com.workday.model.Workday;
-import com.workday.services.EmployeeService;
-import com.workday.services.RegistryService;
+import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/create/registry")
@@ -33,7 +27,26 @@ public class RegistryController {
 	@Autowired
 	private RegistryService registryService;
 	
+	@Autowired
+	private  UserAppService appService;
 	
+	private UserApp userApp;
+
+
+    @ModelAttribute("registrys")
+    public List<Registry> myRegistry() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        userApp = appService.findFirstByUser(email);
+        List<Registry> registrys;
+        if(userApp.getRol().equalsIgnoreCase("ADMIN")){
+            registrys = new ArrayList<Registry>(registryService.findAll());
+        }else{
+            Employee employee = employeeService.findByUser(userApp);
+            registrys  = new ArrayList<Registry>(registryService.findByEmployee(employee));
+        }
+
+        return registrys;
+    }
 
 	@GetMapping("/")
 	public String index(Model model) {
@@ -49,6 +62,12 @@ public class RegistryController {
 		List<Registry> registrys = new ArrayList<Registry>(registryService.findAll());
 
 		model.addAttribute("registrys", registrys);
+		return "list/list-registry";
+	}
+
+	@GetMapping("/listMyRegistry")
+	public String listMyRegistry(Model model) {
+		model.addAttribute("registrys");
 		return "list/list-registry";
 	}
 	

@@ -124,9 +124,14 @@
                                        th:text="#{create.menu.registry}">Crear registro
                                     </a>
                                 </li>
-                                <li>
+                                <li  sec:authorize="hasRole('ADMIN')">
                                     <a th:href="@{/create/registry/list}"
                                        th:text="#{list.menu.registry}">Lista de registros
+                                    </a>
+                                </li>
+                                <li sec:authorize="hasRole('USER')">
+                                    <a th:href="@{/create/registry/listMyRegistry}"
+                                       th:text="#{list.menu.myRegistry}">Mis  registros
                                     </a>
                                 </li>
                             </ul>

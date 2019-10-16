@@ -8,7 +8,6 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import org.springframework.data.annotation.CreatedDate;
 
@@ -17,7 +16,6 @@ import lombok.NoArgsConstructor;
 
 
 @Data
-@NoArgsConstructor
 @Entity
 public class Registry {
     @Id
@@ -73,5 +71,11 @@ public class Registry {
         this.employee = employee;
         this.hours = hours;
     }
+
+	public Registry() {
+		super();
+	}
+    
+    
 
 }

@@ -2,6 +2,7 @@ package com.workday.services;
 
 import java.util.List;
 
+import com.workday.model.Employee;
 import org.springframework.stereotype.Service;
 
 import com.workday.model.Registry;
@@ -28,6 +29,11 @@ public class RegistryService {
 	
 	public List<Registry>findAll(){
 		return registryRepository.findAll();
+		
+	}
+	
+	public List<Registry>findByEmployee(Employee employee){
+		return registryRepository.findByEmployee(employee);
 		
 	}
 	
