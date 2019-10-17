@@ -11,10 +11,13 @@ import org.springframework.context.annotation.PropertySource;
 public class PropertiesConfiguration {
 	
 	@Value("${days.week}")
-	public int daysWeek;
+	private int daysWeek;
 
 	@Value("${days.year}")
-	public int daysYear;
+	private int daysYear;
+
+	@Value("${max.hourWorkpermited}")
+	private int allowedHours;
 
 	public int getDaysWeek() {
 		return daysWeek;
@@ -31,6 +34,12 @@ public class PropertiesConfiguration {
 	public void setDaysYear(int daysYear) {
 		this.daysYear = daysYear;
 	}
-	
-	
+
+	public int getAllowedHours() {
+		return allowedHours;
+	}
+
+	public void setAllowedHours(int allowedHours) {
+		this.allowedHours = allowedHours;
+	}
 }

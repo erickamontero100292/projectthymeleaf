@@ -3,6 +3,7 @@ package com.workday.services;
 import java.util.List;
 
 import com.workday.model.UserApp;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.workday.model.Employee;
@@ -13,7 +14,9 @@ public class EmployeeService {
 
 	
 	private EmployeeRepository employeeRepository;
-		
+
+	@Autowired
+	private  UserAppService appService;
 	
 	public EmployeeService(EmployeeRepository employeeRepository) {
 
@@ -47,5 +50,10 @@ public class EmployeeService {
 		return employeeRepository.findByUser(userApp);
 
 	}
-	
+	public Employee findByUser(String userName){
+		UserApp userApp = appService.findFirstByUser(userName);
+		Employee employee = employeeRepository.findByUser(userApp);
+		return employee;
+
+	}
 }

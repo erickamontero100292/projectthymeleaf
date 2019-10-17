@@ -25,7 +25,6 @@ public class Registry {
     @CreatedDate
     private LocalDateTime dateRegistry;
 
-    @NotNull
     @ManyToOne
     private Employee employee;
 

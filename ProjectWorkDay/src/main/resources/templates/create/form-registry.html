@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	th:replace="layout/base::layout(~{::title},~{::style},~{::#contenido}, ~{::script})">
+	th:replace="layout/base::layout(~{::title},~{::style},~{::#contenido}, ~{::script})"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 
 <head>
@@ -18,14 +19,14 @@ body {
 			<div class="row">
 				<div class="col-md-offset-2 col-md-8">
 					<form method="post" action="#" th:object="${registry}"
-						th:action="@{/create/registry/new/submit}">
+						  th:action="${#authorization.expression('hasRole(''ROLE_ADMIN'')')} ? @{/create/registry/new/adminSubmit} : @{/create/registry/new/submit}">
 						<h1>
 							<span
 								th:text="${registry.id} ? #{label.editRegistry} : #{label.newRegistry}"></span>
 
 						</h1>
 						<input type="hidden" th:field="*{id}" id="id" />
-						<div class="form-group"
+						<div  sec:authorize="hasRole('ADMIN')" class="form-group"
 							th:classappend="${#fields.hasErrors('employee')} ? 'has-error'">
 							<label class="control-label" for="employee"
 								th:text="#{label.employees}">Empleados</label> <select
