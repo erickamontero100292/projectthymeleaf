@@ -14,9 +14,18 @@
 </head>
 <body>
 <th:block id="contenido">
-	<div id="paraelmodal"></div>
+    <div id="paraelmodal"></div>
     <div class="container">
-        <div class="row">
+        <div class="row" th:if="${#lists.isEmpty(employees)}">
+            <div class="col-md-offset-1 col-md-10">
+                <div class="jumbotron">
+                    <div class="container">
+                        <h2 class="text-center" th:text="#{label.listEmptyRegistry}">Aún no tiene registro</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" th:unless="${#lists.isEmpty(employees)}">
             <div class="col-md-offset-1 col-md-10">
                 <div class="pull-right">
                     <a th:href="@{/create/employee/new}" class="btn btn-primary"
@@ -39,8 +48,9 @@
                                     th:href="@{/create/employee/edit/{id}(id=${employee.id})}"
                                     class="btn btn-primary" th:text="#{label.edit}">Editar
                             </a>
-							<button type="button" class="btn btn-danger"
-									th:onclick="|javascript:open_delete(${employee.id}, 'E')|">Borrar</button>
+                            <button type="button" class="btn btn-danger"
+                                    th:onclick="|javascript:open_delete(${employee.id}, 'E')|">Borrar
+                            </button>
                     </tr>
                     </tbody>
                 </table>

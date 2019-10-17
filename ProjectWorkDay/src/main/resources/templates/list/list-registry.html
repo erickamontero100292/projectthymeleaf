@@ -15,7 +15,17 @@ body {
 <body>
 	<th:block id="contenido">
 		<div class="container">
-			<div class="row">
+
+			<div class="row" th:if="${#lists.isEmpty(registrys)}">
+				<div class="col-md-offset-1 col-md-10">
+					<div class="jumbotron">
+						<div class="container">
+							<h2 class="text-center" th:text="#{label.listEmptyRegistry}">Aún no tiene registro</h2>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row" th:unless="${#lists.isEmpty(registrys)}">
 				<div class="col-md-offset-1 col-md-10">
 					<div class="pull-right">
 						<a th:href="@{/create/registry/new}" class="btn btn-primary"
