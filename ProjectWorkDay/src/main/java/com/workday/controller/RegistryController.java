@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -88,8 +89,8 @@ public class RegistryController {
     @PostMapping("/new/adminSubmit")
     public String submitAdminNewWorkDay(@Valid Registry registry, BindingResult bindingResult, Model model) {
         String url = "list/list-registry";
-        LocalDateTime dateRegistry = LocalDateTime.now();
-        registry.setDateRegistry(dateRegistry);
+//        Date dateRegistry = new Date();
+//        registry.setDateRegistry(dateRegistry);
         List<Employee> employees = new ArrayList<>(employeeService.findAll());
 
         if (registry.getHours() > properties.getAllowedHours()) {
@@ -114,8 +115,9 @@ public class RegistryController {
     @PostMapping("/new/submit")
     public String submitNewWorkDay(@Valid Registry registry, BindingResult bindingResult, Model model) {
         String url = "list/list-registry";
-        LocalDateTime dateRegistry = LocalDateTime.now();
-        registry.setDateRegistry(dateRegistry);
+//        LocalDateTime dateRegistry = LocalDateTime.now();
+//        Date dateRegistry = new Date();
+//        registry.setDateRegistry(dateRegistry);
 
         if (registry.getHours() > properties.getAllowedHours()) {
             getMessageMaxHourWorkeds(bindingResult);

@@ -8,11 +8,13 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import org.springframework.data.annotation.CreatedDate;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 @Data
@@ -22,8 +24,9 @@ public class Registry {
     @GeneratedValue
     private Long id;
 
-    @CreatedDate
-    private LocalDateTime dateRegistry;
+    @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date dateRegistry;
 
     @ManyToOne
     private Employee employee;
@@ -39,11 +42,11 @@ public class Registry {
         this.id = id;
     }
 
-    public LocalDateTime getDateRegistry() {
+    public Date getDateRegistry() {
         return dateRegistry;
     }
 
-    public void setDateRegistry(LocalDateTime dateRegistry) {
+    public void setDateRegistry(Date dateRegistry) {
         this.dateRegistry = dateRegistry;
     }
 
@@ -63,7 +66,7 @@ public class Registry {
         this.hours = hours;
     }
 
-    public Registry(Long id, LocalDateTime dateRegistry, @NotNull Employee employee, @NotNull Long hours) {
+    public Registry(Long id, Date dateRegistry, @NotNull Employee employee, @NotNull Long hours) {
         super();
         this.id = id;
         this.dateRegistry = dateRegistry;
