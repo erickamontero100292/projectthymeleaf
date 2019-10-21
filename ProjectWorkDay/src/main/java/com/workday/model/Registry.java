@@ -74,10 +74,9 @@ public class Registry {
         this.hours = hours;
     }
 
-	public Registry() {
-		super();
-	}
-    
-    
+    public Registry() {
+        this.dateRegistry = new Date();
+    }
+
 
 }
