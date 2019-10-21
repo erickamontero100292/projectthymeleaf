@@ -3,11 +3,10 @@ package com.workday.controller;
 import com.workday.configuration.PropertiesConfiguration;
 import com.workday.model.Employee;
 import com.workday.model.Registry;
-import com.workday.model.UserApp;
 import com.workday.services.EmployeeService;
 import com.workday.services.I18nService;
 import com.workday.services.RegistryService;
-import com.workday.services.UserAppService;
+import com.workday.services.WorkDayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,9 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -38,7 +35,6 @@ public class RegistryController {
 
     @Autowired
     private I18nService i18nService;
-
 
     @ModelAttribute("registrys")
     public List<Registry> myRegistry() {
@@ -92,10 +88,6 @@ public class RegistryController {
         String url = "list/list-registry";
         List<Employee> employees = new ArrayList<>(employeeService.findAll());
 
-        if (registry.getHours() > properties.getAllowedHours()) {
-            getMessageMaxHourWorkeds(bindingResult);
-        }
-
         saveRegistry(registry, bindingResult);
         if (bindingResult.hasErrors()) {
 
@@ -111,31 +103,49 @@ public class RegistryController {
         return url;
     }
 
-    private void saveRegistry(@Valid Registry registry, BindingResult bindingResult) {
+    private Registry saveRegistry(@Valid Registry registry, BindingResult bindingResult) {
         try {
-
-            registryService.save(registry);
+            validateAllowsHour(registry, bindingResult);
+            validateIsNotNullEmployee(registry);
+            validateWorkdedHour(registry, bindingResult);
+            registry = registryService.save(registry);
 
         } catch (DataIntegrityViolationException dive) {
             bindingResult.rejectValue("dateRegistry", "error.registry.exist");
         } catch (Exception e) {
             bindingResult.rejectValue("dateRegistry", "error.unexpected");
         }
+
+        return registry;
+    }
+
+    private void validateIsNotNullEmployee(@Valid Registry registry) {
+        if (registry.getEmployee() == null) {
+            saveEmployee(registry);
+        }
+    }
+
+    private void validateAllowsHour(@Valid Registry registry, BindingResult bindingResult) {
+        if (registry.getHours() > properties.getAllowedHours()) {
+            getMessageMaxHourAllowsWorked(bindingResult);
+        }
+    }
+
+    private void validateWorkdedHour(@Valid Registry registry, BindingResult bindingResult) {
+        Long hours = registry.getEmployee().getWorkday().getNumberDailyHour();
+        if (registry.getHours() > hours) {
+            getMessageMaxHourWorkedByWorkday(bindingResult, hours);
+        }
     }
 
     @PostMapping("/new/submit")
     public String submitNewWorkDay(@Valid Registry registry, BindingResult bindingResult, Model model) {
         String url = "list/list-registry";
-
-        if (registry.getHours() > properties.getAllowedHours()) {
-            getMessageMaxHourWorkeds(bindingResult);
-        }
+        registry = saveRegistry(registry, bindingResult);
         if (bindingResult.hasErrors()) {
             url = "create/form-registry";
         } else {
-            saveEmployee(registry);
-            registryService.save(registry);
-            List<Registry> registrys = new ArrayList<Registry>(registryService.findAll());
+            List<Registry> registrys = new ArrayList<Registry>(registryService.findByEmployee(registry.getEmployee()));
             model.addAttribute("registrys", registrys);
 
         }
@@ -149,8 +159,13 @@ public class RegistryController {
         registry.setEmployee(employee);
     }
 
-    private void getMessageMaxHourWorkeds(BindingResult bindingResult) {
+    private void getMessageMaxHourAllowsWorked(BindingResult bindingResult) {
         String message = i18nService.getMessage("error.user.maxHour", new Object[]{String.valueOf(properties.getAllowedHours())});
+        bindingResult.rejectValue("hours", "error.registry", message);
+    }
+
+    private void getMessageMaxHourWorkedByWorkday(BindingResult bindingResult, Long hours) {
+        String message = i18nService.getMessage("error.user.maxHourWorkday", new Object[]{String.valueOf(hours)});
         bindingResult.rejectValue("hours", "error.registry", message);
     }
 

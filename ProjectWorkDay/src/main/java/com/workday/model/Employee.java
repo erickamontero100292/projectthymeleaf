@@ -22,7 +22,6 @@ public class Employee {
     @ManyToOne
     private Workday workday;
 
-   // @NotNull
     @OneToOne
     private UserApp user;
 
