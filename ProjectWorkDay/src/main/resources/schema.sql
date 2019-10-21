@@ -30,7 +30,7 @@ create table registry
 (
     id            bigint not null,
     employee_id   bigint,
-    date_registry timestamp UNIQUE,
+    date_registry timestamp,
     hours         bigint,
     primary key (id)
 );
@@ -52,3 +52,7 @@ alter table employee
     add constraint fk_employee_user foreign key (user_id) references userapp;
 alter table registry
     add constraint fk_employee_id foreign key (employee_id) references employee;
+
+ALTER TABLE registry
+    ADD CONSTRAINT unq_date_employee
+    UNIQUE (date_registry, employee_id);
