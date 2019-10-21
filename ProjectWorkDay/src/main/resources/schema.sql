@@ -30,7 +30,7 @@ create table registry
 (
     id            bigint not null,
     employee_id   bigint,
-    date_registry timestamp,
+    date_registry timestamp UNIQUE,
     hours         bigint,
     primary key (id)
 );

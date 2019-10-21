@@ -9,6 +9,7 @@ import com.workday.services.I18nService;
 import com.workday.services.RegistryService;
 import com.workday.services.UserAppService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -89,14 +90,13 @@ public class RegistryController {
     @PostMapping("/new/adminSubmit")
     public String submitAdminNewWorkDay(@Valid Registry registry, BindingResult bindingResult, Model model) {
         String url = "list/list-registry";
-//        Date dateRegistry = new Date();
-//        registry.setDateRegistry(dateRegistry);
         List<Employee> employees = new ArrayList<>(employeeService.findAll());
 
         if (registry.getHours() > properties.getAllowedHours()) {
             getMessageMaxHourWorkeds(bindingResult);
         }
 
+        saveRegistry(registry, bindingResult);
         if (bindingResult.hasErrors()) {
 
             model.addAttribute("employees", employees);
@@ -104,7 +104,6 @@ public class RegistryController {
 
         } else {
 
-            registryService.save(registry);
             List<Registry> registrys = new ArrayList<>(registryService.findAll());
             model.addAttribute("registrys", registrys);
         }
@@ -112,12 +111,21 @@ public class RegistryController {
         return url;
     }
 
+    private void saveRegistry(@Valid Registry registry, BindingResult bindingResult) {
+        try {
+
+            registryService.save(registry);
+
+        } catch (DataIntegrityViolationException dive) {
+            bindingResult.rejectValue("dateRegistry", "error.registry.exist");
+        } catch (Exception e) {
+            bindingResult.rejectValue("dateRegistry", "error.unexpected");
+        }
+    }
+
     @PostMapping("/new/submit")
     public String submitNewWorkDay(@Valid Registry registry, BindingResult bindingResult, Model model) {
         String url = "list/list-registry";
-//        LocalDateTime dateRegistry = LocalDateTime.now();
-//        Date dateRegistry = new Date();
-//        registry.setDateRegistry(dateRegistry);
 
         if (registry.getHours() > properties.getAllowedHours()) {
             getMessageMaxHourWorkeds(bindingResult);
@@ -131,7 +139,6 @@ public class RegistryController {
             model.addAttribute("registrys", registrys);
 
         }
-
 
         return url;
     }

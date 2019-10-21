@@ -38,7 +38,7 @@
                     </select> <span th:if="${#fields.hasErrors('employee')}"
                                     th:errors="*{employee}" class="help-block" id="employee-error">Errores</span>
                     </div>
-                    <div class="form-group ">
+                    <div class="form-group " th:classappend="${#fields.hasErrors('dateRegistry')} ? 'has-error'">
                         <label for="example-date-input" class="col-2 col-form-label">Date</label>
                         <div class="col-10">
                             <input class="form-control"
@@ -47,6 +47,8 @@
                                    id="dateRegistry"
                                    th:field="*{dateRegistry}">
                         </div>
+                        <span th:if="${#fields.hasErrors('dateRegistry')}"
+                              th:errors="*{dateRegistry}" class="help-block" id="user-error">Errores</span>
                     </div>
                     <div class="form-group" th:classappend="${#fields.hasErrors('hours')} ? 'has-error'">
                         <label class="control-label" for="hours"
