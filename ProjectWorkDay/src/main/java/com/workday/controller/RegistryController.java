@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -108,6 +109,7 @@ public class RegistryController {
             validateAllowsHour(registry, bindingResult);
             validateIsNotNullEmployee(registry);
             validateWorkdedHour(registry, bindingResult);
+            validateDateAfterToday(registry, bindingResult);
             registry = registryService.save(registry);
 
         } catch (DataIntegrityViolationException dive) {
@@ -117,6 +119,13 @@ public class RegistryController {
         }
 
         return registry;
+    }
+
+    private void validateDateAfterToday(@Valid Registry registry, BindingResult bindingResult) {
+        Date today = new Date();
+        if(registry.getDateRegistry().after(today)){
+            bindingResult.rejectValue("dateRegistry", "error.registry.date");
+        }
     }
 
     private void validateIsNotNullEmployee(@Valid Registry registry) {
