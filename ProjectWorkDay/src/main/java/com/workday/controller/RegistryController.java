@@ -24,6 +24,7 @@ import java.util.List;
 @RequestMapping("/create/registry")
 public class RegistryController {
 
+    public static final String ROLE_ADMIN = "ROLE_ADMIN";
     @Autowired
     private EmployeeService employeeService;
 
@@ -41,7 +42,7 @@ public class RegistryController {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         SimpleGrantedAuthority rol = (SimpleGrantedAuthority) SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next();
         List<Registry> registrys;
-        if (rol.getAuthority().equalsIgnoreCase("ROLE_ADMIN")) {
+        if (rol.getAuthority().equalsIgnoreCase(ROLE_ADMIN)) {
             registrys = new ArrayList<Registry>(registryService.findAllByOrderByDateRegistryAsc());
         } else {
             Employee employee = employeeService.findByUser(email);
@@ -83,17 +84,30 @@ public class RegistryController {
         return "create/form-registry";
     }
 
+    @PostMapping("/new/submit")
+    public String submitNewWorkDay(@Valid Registry registry, BindingResult bindingResult, Model model) {
+        String url = "list/list-registry";
+        boolean processFail = processSaveRegistry(registry, bindingResult);
+        if (processFail) {
+            url = "create/form-registry";
+        } else {
+            List<Registry> registrys = new ArrayList<Registry>(registryService.findByEmployeeByOrderByDateRegistryAsc(registry.getEmployee()));
+            model.addAttribute("registrys", registrys);
+        }
+
+        return url;
+    }
+
     @PostMapping("/new/adminSubmit")
     public String submitAdminNewWorkDay(@Valid Registry registry, BindingResult bindingResult, Model model) {
         String url = "list/list-registry";
         List<Employee> employees = new ArrayList<>(employeeService.findAll());
 
-        saveRegistry(registry, bindingResult);
-        if (bindingResult.hasErrors()) {
+        boolean processFail = processSaveRegistry(registry, bindingResult);
 
+        if (processFail) {
             model.addAttribute("employees", employees);
             url = "create/form-registry";
-
         } else {
 
             List<Registry> registrys = new ArrayList<>(registryService.findAllByOrderByDateRegistryAsc());
@@ -103,68 +117,95 @@ public class RegistryController {
         return url;
     }
 
-    private Registry saveRegistry(@Valid Registry registry, BindingResult bindingResult) {
+    private boolean processSaveRegistry(@Valid Registry registry, BindingResult bindingResult) {
+        boolean hasError = false;
         try {
-            validateAllowsHour(registry, bindingResult);
-            validateIsNotNullEmployee(registry);
-            validateWorkdedHour(registry, bindingResult);
-            validateDateAfterToday(registry, bindingResult);
-            registry = registryService.save(registry);
-
+            hasError = processValidations(registry, bindingResult);
+            if (!hasError) {
+                registryService.save(registry);
+            }
         } catch (DataIntegrityViolationException dive) {
             bindingResult.rejectValue("dateRegistry", "error.registry.exist");
+            hasError = true;
         } catch (Exception e) {
             bindingResult.rejectValue("dateRegistry", "error.unexpected");
+            hasError = true;
         }
 
-        return registry;
+        return hasError;
     }
 
-    private void validateDateAfterToday(@Valid Registry registry, BindingResult bindingResult) {
+    private boolean processValidations(@Valid Registry registry, BindingResult bindingResult) {
+
+        boolean validations;
+        boolean hasEmployee;
+
+        validateAllowsHour(registry, bindingResult);
+        hasEmployee = validateHasEmployee(registry, bindingResult);
+        processSetEmployee(registry, hasEmployee);
+        validateWorkdedHour(registry, bindingResult);
+        validateDateAfterToday(registry, bindingResult);
+        validations = bindingResult.hasErrors();
+        return validations;
+    }
+
+    private void processSetEmployee(@Valid Registry registry, boolean hasEmployee) {
+        SimpleGrantedAuthority rol = (SimpleGrantedAuthority) SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next();
+        if (hasEmployee && rol.getAuthority().equalsIgnoreCase("ROLE_USER")) {
+            setEmployeeForRegistry(registry);
+        }
+    }
+
+
+    private boolean validateDateAfterToday(@Valid Registry registry, BindingResult bindingResult) {
         Date today = new Date();
+        boolean processOK = true;
         if (registry.getDateRegistry().after(today)) {
+            processOK = false;
             bindingResult.rejectValue("dateRegistry", "error.registry.date");
         }
+        return processOK;
     }
 
-    private void validateIsNotNullEmployee(@Valid Registry registry) {
-        if (registry.getEmployee() == null) {
-            saveEmployee(registry);
+    private boolean validateHasEmployee(@Valid Registry registry, BindingResult bindingResult) {
+        SimpleGrantedAuthority rol = (SimpleGrantedAuthority) SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next();
+        boolean processOK = true;
+        if (registry.getEmployee() == null && rol.getAuthority().equalsIgnoreCase(ROLE_ADMIN)) {
+            processOK = false;
+            bindingResult.rejectValue("employee", "error.registry.employee");
         }
+        return processOK;
     }
 
-    private void validateAllowsHour(@Valid Registry registry, BindingResult bindingResult) {
+    private boolean validateAllowsHour(@Valid Registry registry, BindingResult bindingResult) {
+        boolean processOK = true;
         if (registry.getHours() > properties.getAllowedHours()) {
+            processOK = false;
             getMessageMaxHourAllowsWorked(bindingResult);
         }
+
+        return processOK;
     }
 
-    private void validateWorkdedHour(@Valid Registry registry, BindingResult bindingResult) {
-        Long hours = registry.getEmployee().getWorkday().getNumberDailyHour();
-        if (registry.getHours() > hours) {
-            getMessageMaxHourWorkedByWorkday(bindingResult, hours);
+    private boolean validateWorkdedHour(@Valid Registry registry, BindingResult bindingResult) {
+        boolean processOK = true;
+        if (registry.getEmployee() != null) {
+            Long hours = registry.getEmployee().getWorkday().getNumberDailyHour();
+            if (registry.getHours() > hours) {
+                processOK = false;
+                getMessageMaxHourWorkedByWorkday(bindingResult, hours);
+            }
         }
+        return processOK;
     }
 
-    @PostMapping("/new/submit")
-    public String submitNewWorkDay(@Valid Registry registry, BindingResult bindingResult, Model model) {
-        String url = "list/list-registry";
-        registry = saveRegistry(registry, bindingResult);
-        if (bindingResult.hasErrors()) {
-            url = "create/form-registry";
-        } else {
-            List<Registry> registrys = new ArrayList<Registry>(registryService.findByEmployeeByOrderByDateRegistryAsc(registry.getEmployee()));
-            model.addAttribute("registrys", registrys);
 
-        }
+    private void setEmployeeForRegistry(@Valid Registry registry) {
 
-        return url;
-    }
-
-    private void saveEmployee(@Valid Registry registry) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Employee employee = employeeService.findByUser(email);
         registry.setEmployee(employee);
+
     }
 
     private void getMessageMaxHourAllowsWorked(BindingResult bindingResult) {
