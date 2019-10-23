@@ -6,7 +6,6 @@ import com.workday.model.Registry;
 import com.workday.services.EmployeeService;
 import com.workday.services.I18nService;
 import com.workday.services.RegistryService;
-import com.workday.services.WorkDayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -43,10 +42,10 @@ public class RegistryController {
         SimpleGrantedAuthority rol = (SimpleGrantedAuthority) SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next();
         List<Registry> registrys;
         if (rol.getAuthority().equalsIgnoreCase("ROLE_ADMIN")) {
-            registrys = new ArrayList<Registry>(registryService.findAll());
+            registrys = new ArrayList<Registry>(registryService.findAllByOrderByDateRegistryAsc());
         } else {
             Employee employee = employeeService.findByUser(email);
-            registrys = new ArrayList<Registry>(registryService.findByEmployee(employee));
+            registrys = new ArrayList<Registry>(registryService.findByEmployeeByOrderByDateRegistryAsc(employee));
         }
 
         return registrys;
@@ -54,7 +53,7 @@ public class RegistryController {
 
     @GetMapping("/")
     public String index(Model model) {
-        List<Registry> registrys = new ArrayList<Registry>(registryService.findAll());
+        List<Registry> registrys = new ArrayList<Registry>(registryService.findAllByOrderByDateRegistryAsc());
 
         model.addAttribute("registrys", registrys);
         return "list/list-registry";
@@ -63,7 +62,7 @@ public class RegistryController {
 
     @GetMapping("/list")
     public String listRegistry(Model model) {
-        List<Registry> registrys = new ArrayList<Registry>(registryService.findAll());
+        List<Registry> registrys = new ArrayList<Registry>(registryService.findAllByOrderByDateRegistryAsc());
 
         model.addAttribute("registrys", registrys);
         return "list/list-registry";
@@ -97,7 +96,7 @@ public class RegistryController {
 
         } else {
 
-            List<Registry> registrys = new ArrayList<>(registryService.findAll());
+            List<Registry> registrys = new ArrayList<>(registryService.findAllByOrderByDateRegistryAsc());
             model.addAttribute("registrys", registrys);
         }
 
@@ -123,7 +122,7 @@ public class RegistryController {
 
     private void validateDateAfterToday(@Valid Registry registry, BindingResult bindingResult) {
         Date today = new Date();
-        if(registry.getDateRegistry().after(today)){
+        if (registry.getDateRegistry().after(today)) {
             bindingResult.rejectValue("dateRegistry", "error.registry.date");
         }
     }
@@ -154,7 +153,7 @@ public class RegistryController {
         if (bindingResult.hasErrors()) {
             url = "create/form-registry";
         } else {
-            List<Registry> registrys = new ArrayList<Registry>(registryService.findByEmployee(registry.getEmployee()));
+            List<Registry> registrys = new ArrayList<Registry>(registryService.findByEmployeeByOrderByDateRegistryAsc(registry.getEmployee()));
             model.addAttribute("registrys", registrys);
 
         }
