@@ -22,7 +22,7 @@ public class Employee {
     @ManyToOne
     private Workday workday;
 
-    @OneToOne
+    @ManyToOne
     private UserApp user;
 
     public Employee(Long id, String name) {

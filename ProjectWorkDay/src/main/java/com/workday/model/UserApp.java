@@ -1,7 +1,9 @@
 package com.workday.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "userapp")
@@ -16,6 +18,10 @@ public class UserApp {
     private String user;
     private String password;
     private String rol;
+
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Employee> employeeList = new ArrayList<>();
 
     public long getId() {
         return id;
@@ -71,5 +77,13 @@ public class UserApp {
     }
 
     public UserApp() {
+    }
+
+    public List<Employee> getEmployeeList() {
+        return employeeList;
+    }
+
+    public void setEmployeeList(List<Employee> employeeList) {
+        this.employeeList = employeeList;
     }
 }
