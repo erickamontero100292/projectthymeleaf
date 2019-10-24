@@ -237,16 +237,33 @@ public class RegistryController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteRegistry(@PathVariable("id") Long id, Model model) {
+    public String deleteRegistry(@PathVariable("id") Long id) {
 
         String url = "";
-        Registry workday = registryService.findById(id);
+        Registry registry = registryService.findById(id);
 
-        if (workday != null) {
+        if (registry != null) {
             registryService.delete(id);
             url = "redirect:/create/registry/";
         }
         return url;
     }
+
+    @GetMapping("/delete/show/{id}")
+    public String showModalDeleteEmployee(@PathVariable("id") Long id, Model model) {
+
+        Registry registry = registryService.findById(id);
+        String deleteMessage = "";
+        if (registry != null)
+            deleteMessage = i18nService.getMessage("registry.delete.message", new Object[]{registry.getDateRegistry()});
+        else
+            return "redirect:/admin/producto/?error=true";
+
+        model.addAttribute("delete_url", "/create/registry/delete/" + id);
+        model.addAttribute("delete_title", i18nService.getMessage("label.deleteWorkday"));
+        model.addAttribute("delete_message", deleteMessage);
+        return "fragments/modal::modal_delete";
+    }
+
 
 }
