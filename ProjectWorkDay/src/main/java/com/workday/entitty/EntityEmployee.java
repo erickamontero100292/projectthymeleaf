@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
-public class Employee {
+public class EntityEmployee {
     @Id
     @GeneratedValue
     private Long id;
@@ -19,12 +19,12 @@ public class Employee {
 
     @NotNull(message = "{error.workday.null}")
     @ManyToOne
-    private Workday workday;
+    private EntityWorkday workday;
 
     @ManyToOne
-    private UserApp user;
+    private EntityUserApp user;
 
-    public Employee(Long id, String name) {
+    public EntityEmployee(Long id, String name) {
         super();
         this.id = id;
         this.name = name;
@@ -46,19 +46,19 @@ public class Employee {
         this.name = name;
     }
 
-    public Workday getWorkday() {
+    public EntityWorkday getWorkday() {
         return workday;
     }
 
-    public UserApp getUser() {
+    public EntityUserApp getUser() {
         return user;
     }
 
-    public void setUser(UserApp user) {
+    public void setUser(EntityUserApp user) {
         this.user = user;
     }
 
-    public void setWorkday(Workday workday) {
+    public void setWorkday(EntityWorkday workday) {
         this.workday = workday;
     }
 
@@ -66,14 +66,14 @@ public class Employee {
         this.name = name;
     }
 
-    public Employee(Long id, @NotEmpty String name, @NotNull Workday workday) {
+    public EntityEmployee(Long id, @NotEmpty String name, @NotNull EntityWorkday workday) {
         super();
         this.id = id;
         this.name = name;
         this.workday = workday;
     }
 
-	public Employee() {
+	public EntityEmployee() {
 		super();
 	}
 

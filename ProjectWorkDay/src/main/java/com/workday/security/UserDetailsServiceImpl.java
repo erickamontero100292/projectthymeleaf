@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.workday.entitty.UserApp;
+import com.workday.entitty.EntityUserApp;
 import com.workday.repository.UserAppRepository;
 
 
@@ -22,7 +22,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		UserApp usuario = repository.findFirstByUser(username);
+		EntityUserApp usuario = repository.findFirstByUser(username);
 		UserBuilder builder = null;
 		
 		if (usuario != null) {

@@ -9,7 +9,7 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Workday {
+public class EntityWorkday {
 
     @Id
     @GeneratedValue
@@ -46,7 +46,7 @@ public class Workday {
         this.numberWeekHour = numberWeekHour;
     }
 
-    public Workday(Long id, String name, Long numberDailyHour) {
+    public EntityWorkday(Long id, String name, Long numberDailyHour) {
         super();
         this.id = id;
         this.name = name;
@@ -61,7 +61,7 @@ public class Workday {
         this.numberDailyHour = numberDailyHour;
     }
 
-    public Workday(Long id, String name, Long numberDailyHour, Long numberWeekHour) {
+    public EntityWorkday(Long id, String name, Long numberDailyHour, Long numberWeekHour) {
         super();
         this.id = id;
         this.name = name;
@@ -69,7 +69,7 @@ public class Workday {
         this.numberWeekHour = numberWeekHour;
     }
 
-	public Workday() {
+	public EntityWorkday() {
 		super();
 	}
 

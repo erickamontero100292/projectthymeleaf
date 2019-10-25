@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "userapp")
-public class UserApp {
+public class EntityUserApp {
 
     @Id
     @GeneratedValue
@@ -21,7 +21,7 @@ public class UserApp {
 
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Employee> employeeList = new ArrayList<>();
+    private List<EntityEmployee> employeeList = new ArrayList<>();
 
     public long getId() {
         return id;
@@ -63,27 +63,27 @@ public class UserApp {
         this.rol = rol;
     }
 
-    public UserApp(Date dateCreate, String user, String password) {
+    public EntityUserApp(Date dateCreate, String user, String password) {
         this.dateCreate = dateCreate;
         this.user = user;
         this.password = password;
     }
 
-    public UserApp(Date dateCreate, String user, String password, String rol) {
+    public EntityUserApp(Date dateCreate, String user, String password, String rol) {
         this.dateCreate = dateCreate;
         this.user = user;
         this.password = password;
         this.rol = rol;
     }
 
-    public UserApp() {
+    public EntityUserApp() {
     }
 
-    public List<Employee> getEmployeeList() {
+    public List<EntityEmployee> getEmployeeList() {
         return employeeList;
     }
 
-    public void setEmployeeList(List<Employee> employeeList) {
+    public void setEmployeeList(List<EntityEmployee> employeeList) {
         this.employeeList = employeeList;
     }
 }

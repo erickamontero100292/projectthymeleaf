@@ -1,7 +1,7 @@
 package com.workday.controller;
 
 import com.workday.configuration.PropertiesConfiguration;
-import com.workday.entitty.Employee;
+import com.workday.entitty.EntityEmployee;
 import com.workday.entitty.EntityRegistry;
 import com.workday.model.Registry;
 import com.workday.services.EmployeeService;
@@ -16,9 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Date;
@@ -52,7 +49,7 @@ public class RegistryController {
             registryList =processPercentageHourWorked(entityRegistries );
 
         } else {
-            Employee employee = employeeService.findByUser(email);
+            EntityEmployee employee = employeeService.findByUser(email);
             entityRegistries = new ArrayList<EntityRegistry>(registryService.findByEmployeeByOrderByDateRegistryAsc(employee));
             registryList= processPercentageHourWorked(entityRegistries);
         }
@@ -125,7 +122,7 @@ public class RegistryController {
     @PostMapping("/new/adminSubmit")
     public String submitAdminNewWorkDay(@Valid EntityRegistry registry, BindingResult bindingResult, Model model) {
         String url = "list/list-registry";
-        List<Employee> employees = new ArrayList<>(employeeService.findAll());
+        List<EntityEmployee> employees = new ArrayList<>(employeeService.findAll());
 
         boolean processFail = processSaveRegistry(registry, bindingResult);
 
@@ -229,7 +226,7 @@ public class RegistryController {
     private void setEmployeeForRegistry(@Valid EntityRegistry registry) {
 
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        Employee employee = employeeService.findByUser(email);
+        EntityEmployee employee = employeeService.findByUser(email);
         registry.setEmployee(employee);
 
     }

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.workday.configuration.PropertiesConfiguration;
-import com.workday.entitty.Workday;
+import com.workday.entitty.EntityWorkday;
 import com.workday.services.WorkDayService;
 
 @Controller
@@ -32,23 +32,23 @@ public class WorkdayController {
 
 	@GetMapping("/")
 	public String index(Model model) {
-		List<Workday> workDays = new ArrayList<Workday>(workdayService.findAll());
+		List<EntityWorkday> workDays = new ArrayList<EntityWorkday>(workdayService.findAll());
 		model.addAttribute("workdays", workDays);
 		return "list/list-workday";
 	}
 
 	@GetMapping("/new")
 	public String nerWorkDay(Model model) {
-		model.addAttribute("work", new Workday());
+		model.addAttribute("work", new EntityWorkday());
 		return "create/form-workday";
 	}
 
 	@PostMapping("/new/submit")
-	public String submitNewWorkDay(@ModelAttribute("workday") Workday workday, Model model) {
+	public String submitNewWorkDay(@ModelAttribute("workday") EntityWorkday workday, Model model) {
 		long numberHourWeek = (properties.getDaysWeek() * workday.getNumberDailyHour());
 		workday.setNumberWeekHour(numberHourWeek);
 		workdayService.save(workday);
-		List<Workday> workDays = new ArrayList<Workday>(workdayService.findAll());
+		List<EntityWorkday> workDays = new ArrayList<EntityWorkday>(workdayService.findAll());
 		model.addAttribute("workdays", workDays);
 
 		return "list/list-workday";
@@ -56,7 +56,7 @@ public class WorkdayController {
 
 	@GetMapping("/list")
 	public String listWorkDay(Model model) {
-		List<Workday> workDays = new ArrayList<Workday>(workdayService.findAll());
+		List<EntityWorkday> workDays = new ArrayList<EntityWorkday>(workdayService.findAll());
 		model.addAttribute("workdays", workDays);
 		return "list/list-workday";
 	}
@@ -65,7 +65,7 @@ public class WorkdayController {
 	public String editWorkDay(@PathVariable("id") Long id, Model model) {
 
 		String url = "";
-		Workday workday = workdayService.findById(id);
+		EntityWorkday workday = workdayService.findById(id);
 
 		if (workday != null) {
 			model.addAttribute("work", workday);
@@ -81,7 +81,7 @@ public class WorkdayController {
 	public String deleteWorkDay(@PathVariable("id") Long id, Model model) {
 
 		String url = "";
-		Workday workday = workdayService.findById(id);
+		EntityWorkday workday = workdayService.findById(id);
 
 		if (workday != null) {
 			workdayService.delete(id);
@@ -92,7 +92,7 @@ public class WorkdayController {
 	@GetMapping("/delete/show/{id}")
 	public String showModalDeleteEmployee(@PathVariable("id") Long id, Model model) {
 
-		Workday workday = workdayService.findById(id);
+		EntityWorkday workday = workdayService.findById(id);
 		String deleteMessage = "";
 		if (workday != null)
 			deleteMessage = i18nService.getMessage("workday.delete.message", new Object[]{workday.getName()});

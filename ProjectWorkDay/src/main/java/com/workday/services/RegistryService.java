@@ -2,7 +2,7 @@ package com.workday.services;
 
 import java.util.List;
 
-import com.workday.entitty.Employee;
+import com.workday.entitty.EntityEmployee;
 import com.workday.entitty.EntityRegistry;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -37,12 +37,12 @@ public class RegistryService {
 
 	}
 	
-	public List<EntityRegistry>findByEmployee(Employee employee){
+	public List<EntityRegistry>findByEmployee(EntityEmployee employee){
 		return registryRepository.findByEmployee(employee);
 		
 	}
 
-	public List<EntityRegistry>findByEmployeeByOrderByDateRegistryAsc(Employee employee){
+	public List<EntityRegistry>findByEmployeeByOrderByDateRegistryAsc(EntityEmployee employee){
 		List<EntityRegistry> registries= registryRepository.findByEmployee(employee,Sort.by(Sort.Direction.ASC, "dateRegistry"));
 		return registries;
 

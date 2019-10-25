@@ -23,7 +23,7 @@ public class EntityRegistry {
     private Date dateRegistry;
 
     @ManyToOne
-    private Employee employee;
+    private EntityEmployee employee;
 
     @NotNull
     private Long hours;
@@ -44,11 +44,11 @@ public class EntityRegistry {
         this.dateRegistry = dateRegistry;
     }
 
-    public Employee getEmployee() {
+    public EntityEmployee getEmployee() {
         return employee;
     }
 
-    public void setEmployee(Employee employee) {
+    public void setEmployee(EntityEmployee employee) {
         this.employee = employee;
     }
 
@@ -60,7 +60,7 @@ public class EntityRegistry {
         this.hours = hours;
     }
 
-    public EntityRegistry(Long id, Date dateRegistry, @NotNull Employee employee, @NotNull Long hours) {
+    public EntityRegistry(Long id, Date dateRegistry, @NotNull EntityEmployee employee, @NotNull Long hours) {
         super();
         this.id = id;
         this.dateRegistry = dateRegistry;

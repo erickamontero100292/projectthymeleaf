@@ -1,12 +1,12 @@
 package com.workday.repository;
 
-import com.workday.entitty.UserApp;
+import com.workday.entitty.EntityUserApp;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.workday.entitty.Employee;
+import com.workday.entitty.EntityEmployee;
 
-public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+public interface EmployeeRepository extends JpaRepository<EntityEmployee, Long> {
 
 
-    Employee findByUser(UserApp userApp);
+    EntityEmployee findByUser(EntityUserApp userApp);
 }

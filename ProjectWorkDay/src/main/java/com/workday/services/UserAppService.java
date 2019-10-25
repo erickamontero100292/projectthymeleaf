@@ -1,7 +1,7 @@
 package com.workday.services;
 
 
-import com.workday.entitty.UserApp;
+import com.workday.entitty.EntityUserApp;
 import com.workday.repository.UserAppRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,7 +20,7 @@ public class UserAppService {
     BCryptPasswordEncoder passwordEncoder;
 
 
-    public UserApp save(UserApp userApp) {
+    public EntityUserApp save(EntityUserApp userApp) {
         userApp.setDateCreate(new Date());
         userApp.setRol("USER");
         userApp.setPassword(passwordEncoder.encode(userApp.getPassword()));
@@ -28,11 +28,11 @@ public class UserAppService {
         return repository.save(userApp);
     }
 
-    public UserApp findById(long id) {
+    public EntityUserApp findById(long id) {
         return repository.findById(id).orElse(null);
     }
 
-    public UserApp findFirstByUser(String user) {
+    public EntityUserApp findFirstByUser(String user) {
         return repository.findFirstByUser(user);
     }
 }

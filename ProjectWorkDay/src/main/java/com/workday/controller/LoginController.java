@@ -1,7 +1,7 @@
 package com.workday.controller;
 
 
-import com.workday.entitty.UserApp;
+import com.workday.entitty.EntityUserApp;
 import com.workday.services.UserAppService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,13 +24,13 @@ public class LoginController {
 
     @GetMapping("/auth/login")
     public String login(Model model) {
-        model.addAttribute("userApp", new UserApp());
+        model.addAttribute("userApp", new EntityUserApp());
         return "login";
     }
 
 
     @PostMapping("/auth/register")
-    public String register(@ModelAttribute UserApp userApp) {
+    public String register(@ModelAttribute EntityUserApp userApp) {
 
         userAppService.save(userApp);
         return "redirect:/auth/login";

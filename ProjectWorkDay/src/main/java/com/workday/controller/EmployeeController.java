@@ -1,7 +1,7 @@
 package com.workday.controller;
 
-import com.workday.entitty.Employee;
-import com.workday.entitty.UserApp;
+import com.workday.entitty.EntityEmployee;
+import com.workday.entitty.EntityUserApp;
 import com.workday.services.EmployeeService;
 import com.workday.services.I18nService;
 import com.workday.services.UserAppService;
@@ -40,7 +40,7 @@ public class EmployeeController {
 
     @GetMapping("/")
     public String index(Model model) {
-        List<Employee> employees = new ArrayList<>(employeeService.findAll());
+        List<EntityEmployee> employees = new ArrayList<>(employeeService.findAll());
 
         model.addAttribute(EMPLOYEES, employees);
         return LIST_LIST_EMPLOYEE;
@@ -48,7 +48,7 @@ public class EmployeeController {
 
     @GetMapping("/list")
     public String listEmployee(Model model) {
-        List<Employee> employees = new ArrayList<>(employeeService.findAll());
+        List<EntityEmployee> employees = new ArrayList<>(employeeService.findAll());
         model.addAttribute(EMPLOYEES, employees);
         return LIST_LIST_EMPLOYEE;
     }
@@ -57,15 +57,15 @@ public class EmployeeController {
     @GetMapping("/new")
     public String newEmployee(Model model) {
 
-        model.addAttribute(EMPLOYEE, new Employee());
+        model.addAttribute(EMPLOYEE, new EntityEmployee());
         model.addAttribute(WORKDAYS, workdayService.findAll());
         return CREATE_FORM_EMPLOYEE;
     }
 
     @PostMapping("/new/submit")
-    public String newEmployee(@Valid @ModelAttribute(EMPLOYEE) Employee employee, BindingResult bindingResult, Model model) {
+    public String newEmployee(@Valid @ModelAttribute(EMPLOYEE) EntityEmployee employee, BindingResult bindingResult, Model model) {
         String url = LIST_LIST_EMPLOYEE;
-        UserApp userApp = employee.getUser();
+        EntityUserApp userApp = employee.getUser();
         userApp = saveUser(bindingResult, userApp);
         if (bindingResult.hasErrors()) {
             model.addAttribute(WORKDAYS, workdayService.findAll());
@@ -73,7 +73,7 @@ public class EmployeeController {
         } else {
             employee.setUser(userApp);
             employeeService.save(employee);
-            List<Employee> employees = new ArrayList<>(employeeService.findAll());
+            List<EntityEmployee> employees = new ArrayList<>(employeeService.findAll());
             model.addAttribute(EMPLOYEES, employees);
         }
 
@@ -85,7 +85,7 @@ public class EmployeeController {
     public String editEmployee(@PathVariable("id") Long id, Model model) {
 
         String url = "";
-        Employee employee = employeeService.findById(id);
+        EntityEmployee employee = employeeService.findById(id);
 
         if (employee != null) {
             model.addAttribute(EMPLOYEE, employee);
@@ -102,7 +102,7 @@ public class EmployeeController {
     public String deleteEmployee(@PathVariable("id") Long id, Model model) {
 
         String url = "";
-        Employee employee = employeeService.findById(id);
+        EntityEmployee employee = employeeService.findById(id);
 
 
         if (employee != null) {
@@ -115,7 +115,7 @@ public class EmployeeController {
     @GetMapping("/delete/show/{id}")
     public String showModalDeleteEmployee(@PathVariable("id") Long id, Model model) {
 
-        Employee employee = employeeService.findById(id);
+        EntityEmployee employee = employeeService.findById(id);
         String deleteMessage = "";
         if (employee != null)
             deleteMessage = i18nService.getMessage("employee.delete.message", new Object[]{employee.getName()});
@@ -128,7 +128,7 @@ public class EmployeeController {
         return "fragments/modal::modal_delete";
     }
 
-    private UserApp saveUser(BindingResult bindingResult, UserApp userApp) {
+    private EntityUserApp saveUser(BindingResult bindingResult, EntityUserApp userApp) {
         try {
 
             userApp = userAppService.save(userApp);
