@@ -40,13 +40,19 @@ body {
 								<th th:text="#{label.nameWorkday}">Nombre de la jornada</th>
 								<th th:text="#{label.hoursWorked}">Horas trabajadas</th>
 								<th th:text="#{label.date}">Dia trabajado</th>
+								<th></th>
 							</tr>
 						</thead>
 						<tbody>
                         <tr th:each="registry : ${registrys}">
                             <td th:text="${registry.employee.name}"></td>
                             <td th:text="${registry.employee.workday.name}"></td>
-                            <td th:text="${registry.hours}"></td>
+                            <td >
+								<span th:text="${registry.hours}"></span>
+								<div class="progress">
+									<div class="progress-bar" role="progressbar" th:style="'width:'+ ${registry.hours*40}+'%'"  aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" th:text="${registry.hours*30}+'%'">25%</div>
+								</div>
+							</td>
                             <td
                                     th:text="${#dates.format(registry.dateRegistry, 'dd/MMM/yyyy')}"></td>
                             <td class="operaciones" sec:authorize="hasRole('ADMIN')">
