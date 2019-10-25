@@ -1,82 +1,38 @@
 package com.workday.model;
 
+import com.workday.entitty.EntityRegistry;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
-
-import java.time.LocalDateTime;
-import java.util.Date;
-
-import org.springframework.data.annotation.CreatedDate;
-
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
-
-
-@Data
-@Entity
 public class Registry {
-    @Id
-    @GeneratedValue
-    private Long id;
 
-    @NotNull
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date dateRegistry;
+    private EntityRegistry entityRegistry;
 
-    @ManyToOne
-    private Employee employee;
+    private float percentageHour;
 
-    @NotNull
-    private Long hours;
-
-    public Long getId() {
-        return id;
+    public EntityRegistry getEntityRegistry() {
+        return entityRegistry;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setEntityRegistry(EntityRegistry entityRegistry) {
+        this.entityRegistry = entityRegistry;
     }
 
-    public Date getDateRegistry() {
-        return dateRegistry;
+    public float getPercentageHour() {
+        return percentageHour;
     }
 
-    public void setDateRegistry(Date dateRegistry) {
-        this.dateRegistry = dateRegistry;
+    public void setPercentageHour(float percentageHour) {
+        this.percentageHour = percentageHour;
     }
 
-    public Employee getEmployee() {
-        return employee;
+    public Registry(EntityRegistry entityRegistry, float percentageHour) {
+        this.entityRegistry = entityRegistry;
+        this.percentageHour = percentageHour;
     }
 
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    public Long getHours() {
-        return hours;
-    }
-
-    public void setHours(Long hours) {
-        this.hours = hours;
-    }
-
-    public Registry(Long id, Date dateRegistry, @NotNull Employee employee, @NotNull Long hours) {
-        super();
-        this.id = id;
-        this.dateRegistry = dateRegistry;
-        this.employee = employee;
-        this.hours = hours;
+    public Registry(EntityRegistry entityRegistry) {
+        this.entityRegistry = entityRegistry;
     }
 
     public Registry() {
-        this.dateRegistry = new Date();
     }
-
-
 }

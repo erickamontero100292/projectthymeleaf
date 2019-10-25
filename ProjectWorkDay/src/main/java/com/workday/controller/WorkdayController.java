@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.workday.configuration.PropertiesConfiguration;
-import com.workday.model.Workday;
+import com.workday.entitty.Workday;
 import com.workday.services.WorkDayService;
 
 @Controller

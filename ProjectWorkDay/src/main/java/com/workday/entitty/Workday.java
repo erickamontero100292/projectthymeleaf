@@ -1,11 +1,10 @@
-package com.workday.model;
+package com.workday.entitty;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 
 @Data

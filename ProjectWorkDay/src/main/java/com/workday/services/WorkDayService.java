@@ -2,7 +2,7 @@ package com.workday.services;
 
 import org.springframework.stereotype.Service;
 
-import com.workday.model.Workday;
+import com.workday.entitty.Workday;
 import com.workday.repository.WorkDayRepository;
 
 import java.util.List;

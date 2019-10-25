@@ -1,4 +1,4 @@
-package com.workday.model;
+package com.workday.entitty;
 
 import javax.persistence.*;
 import java.util.ArrayList;

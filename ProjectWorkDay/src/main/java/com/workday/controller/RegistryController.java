@@ -1,7 +1,8 @@
 package com.workday.controller;
 
 import com.workday.configuration.PropertiesConfiguration;
-import com.workday.model.Employee;
+import com.workday.entitty.Employee;
+import com.workday.entitty.EntityRegistry;
 import com.workday.model.Registry;
 import com.workday.services.EmployeeService;
 import com.workday.services.I18nService;
@@ -15,6 +16,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,31 +45,49 @@ public class RegistryController {
     public List<Registry> myRegistry() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         SimpleGrantedAuthority rol = (SimpleGrantedAuthority) SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next();
-        List<Registry> registrys;
+        List<EntityRegistry> entityRegistries;
+        List<Registry> registryList = new ArrayList<>();
         if (rol.getAuthority().equalsIgnoreCase(ROLE_ADMIN)) {
-            registrys = new ArrayList<Registry>(registryService.findAllByOrderByDateRegistryAsc());
+            entityRegistries = new ArrayList<EntityRegistry>(registryService.findAllByOrderByDateRegistryAsc());
+            registryList =processPercentageHourWorked(entityRegistries );
+
         } else {
             Employee employee = employeeService.findByUser(email);
-            registrys = new ArrayList<Registry>(registryService.findByEmployeeByOrderByDateRegistryAsc(employee));
+            entityRegistries = new ArrayList<EntityRegistry>(registryService.findByEmployeeByOrderByDateRegistryAsc(employee));
+            registryList= processPercentageHourWorked(entityRegistries);
         }
 
-        return registrys;
+        return registryList;
+    }
+
+    private  List<Registry> processPercentageHourWorked(List<EntityRegistry> entityRegistries) {
+            List<Registry> registryList = new ArrayList<>();
+        for (EntityRegistry entityRegistry : entityRegistries) {
+            float numberDailyHour = entityRegistry.getEmployee().getWorkday().getNumberDailyHour();
+            float percetange = (entityRegistry.getHours() * 100) / numberDailyHour;
+            Registry registry = new Registry(entityRegistry, percetange);
+            registryList.add(registry);
+
+        }
+
+        return registryList;
     }
 
     @GetMapping("/")
     public String index(Model model) {
-        List<Registry> registrys = new ArrayList<Registry>(registryService.findAllByOrderByDateRegistryAsc());
-
-        model.addAttribute("registrys", registrys);
+        List<EntityRegistry> registrys = new ArrayList<EntityRegistry>(registryService.findAllByOrderByDateRegistryAsc());
+        List<Registry> registryList = processPercentageHourWorked(registrys);
+        model.addAttribute("registrys", registryList);
         return "list/list-registry";
     }
 
 
     @GetMapping("/list")
     public String listRegistry(Model model) {
-        List<Registry> registrys = new ArrayList<Registry>(registryService.findAllByOrderByDateRegistryAsc());
-
-        model.addAttribute("registrys", registrys);
+        List<EntityRegistry> registrys = new ArrayList<EntityRegistry>(registryService.findAllByOrderByDateRegistryAsc());
+        List<Registry> registryList = new ArrayList<>();
+        registryList= processPercentageHourWorked(registrys);
+        model.addAttribute("registrys", registryList);
         return "list/list-registry";
     }
 
@@ -79,27 +101,29 @@ public class RegistryController {
     @GetMapping("/new")
     public String newemployee(Model model) {
 
-        model.addAttribute("registry", new Registry());
+        model.addAttribute("registry", new EntityRegistry());
         model.addAttribute("employees", employeeService.findAll());
         return "create/form-registry";
     }
 
     @PostMapping("/new/submit")
-    public String submitNewWorkDay(@Valid Registry registry, BindingResult bindingResult, Model model) {
+    public String submitNewWorkDay(@Valid EntityRegistry registry, BindingResult bindingResult, Model model) {
         String url = "list/list-registry";
         boolean processFail = processSaveRegistry(registry, bindingResult);
         if (processFail) {
             url = "create/form-registry";
         } else {
-            List<Registry> registrys = new ArrayList<Registry>(registryService.findByEmployeeByOrderByDateRegistryAsc(registry.getEmployee()));
-            model.addAttribute("registrys", registrys);
+            List<EntityRegistry> registrys = new ArrayList<EntityRegistry>(registryService.findByEmployeeByOrderByDateRegistryAsc(registry.getEmployee()));
+            List<Registry> registryList = new ArrayList<>();
+            registryList = processPercentageHourWorked(registrys);
+            model.addAttribute("registrys", registryList);
         }
 
         return url;
     }
 
     @PostMapping("/new/adminSubmit")
-    public String submitAdminNewWorkDay(@Valid Registry registry, BindingResult bindingResult, Model model) {
+    public String submitAdminNewWorkDay(@Valid EntityRegistry registry, BindingResult bindingResult, Model model) {
         String url = "list/list-registry";
         List<Employee> employees = new ArrayList<>(employeeService.findAll());
 
@@ -110,14 +134,16 @@ public class RegistryController {
             url = "create/form-registry";
         } else {
 
-            List<Registry> registrys = new ArrayList<>(registryService.findAllByOrderByDateRegistryAsc());
-            model.addAttribute("registrys", registrys);
+            List<EntityRegistry> registrys = new ArrayList<>(registryService.findAllByOrderByDateRegistryAsc());
+            List<Registry> registryList = new ArrayList<>();
+            registryList = processPercentageHourWorked( registrys);
+            model.addAttribute("registrys", registryList);
         }
 
         return url;
     }
 
-    private boolean processSaveRegistry(@Valid Registry registry, BindingResult bindingResult) {
+    private boolean processSaveRegistry(@Valid EntityRegistry registry, BindingResult bindingResult) {
         boolean hasError = false;
         try {
             hasError = processValidations(registry, bindingResult);
@@ -135,7 +161,7 @@ public class RegistryController {
         return hasError;
     }
 
-    private boolean processValidations(@Valid Registry registry, BindingResult bindingResult) {
+    private boolean processValidations(@Valid EntityRegistry registry, BindingResult bindingResult) {
 
         boolean validations;
         boolean hasEmployee;
@@ -149,7 +175,7 @@ public class RegistryController {
         return validations;
     }
 
-    private void processSetEmployee(@Valid Registry registry, boolean hasEmployee) {
+    private void processSetEmployee(@Valid EntityRegistry registry, boolean hasEmployee) {
         SimpleGrantedAuthority rol = (SimpleGrantedAuthority) SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next();
         if (hasEmployee && rol.getAuthority().equalsIgnoreCase("ROLE_USER")) {
             setEmployeeForRegistry(registry);
@@ -157,7 +183,7 @@ public class RegistryController {
     }
 
 
-    private boolean validateDateAfterToday(@Valid Registry registry, BindingResult bindingResult) {
+    private boolean validateDateAfterToday(@Valid EntityRegistry registry, BindingResult bindingResult) {
         Date today = new Date();
         boolean processOK = true;
         if (registry.getDateRegistry().after(today)) {
@@ -167,7 +193,7 @@ public class RegistryController {
         return processOK;
     }
 
-    private boolean validateHasEmployee(@Valid Registry registry, BindingResult bindingResult) {
+    private boolean validateHasEmployee(@Valid EntityRegistry registry, BindingResult bindingResult) {
         SimpleGrantedAuthority rol = (SimpleGrantedAuthority) SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next();
         boolean processOK = true;
         if (registry.getEmployee() == null && rol.getAuthority().equalsIgnoreCase(ROLE_ADMIN)) {
@@ -177,7 +203,7 @@ public class RegistryController {
         return processOK;
     }
 
-    private boolean validateAllowsHour(@Valid Registry registry, BindingResult bindingResult) {
+    private boolean validateAllowsHour(@Valid EntityRegistry registry, BindingResult bindingResult) {
         boolean processOK = true;
         if (registry.getHours() > properties.getAllowedHours()) {
             processOK = false;
@@ -187,7 +213,7 @@ public class RegistryController {
         return processOK;
     }
 
-    private boolean validateWorkdedHour(@Valid Registry registry, BindingResult bindingResult) {
+    private boolean validateWorkdedHour(@Valid EntityRegistry registry, BindingResult bindingResult) {
         boolean processOK = true;
         if (registry.getEmployee() != null) {
             Long hours = registry.getEmployee().getWorkday().getNumberDailyHour();
@@ -200,7 +226,7 @@ public class RegistryController {
     }
 
 
-    private void setEmployeeForRegistry(@Valid Registry registry) {
+    private void setEmployeeForRegistry(@Valid EntityRegistry registry) {
 
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Employee employee = employeeService.findByUser(email);
@@ -223,8 +249,7 @@ public class RegistryController {
     public String editRegistry(@PathVariable("id") Long id, Model model) {
 
         String url = "";
-        Registry registry = registryService.findById(id);
-
+        EntityRegistry registry = registryService.findById(id);
         if (registry != null) {
             model.addAttribute("registry", registry);
             model.addAttribute("employees", employeeService.findAll());
@@ -240,7 +265,7 @@ public class RegistryController {
     public String deleteRegistry(@PathVariable("id") Long id) {
 
         String url = "";
-        Registry registry = registryService.findById(id);
+        EntityRegistry registry = registryService.findById(id);
 
         if (registry != null) {
             registryService.delete(id);
@@ -252,7 +277,7 @@ public class RegistryController {
     @GetMapping("/delete/show/{id}")
     public String showModalDeleteEmployee(@PathVariable("id") Long id, Model model) {
 
-        Registry registry = registryService.findById(id);
+        EntityRegistry registry = registryService.findById(id);
         String deleteMessage = "";
         if (registry != null)
             deleteMessage = i18nService.getMessage("registry.delete.message", new Object[]{registry.getDateRegistry()});

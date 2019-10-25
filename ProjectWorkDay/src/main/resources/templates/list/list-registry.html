@@ -45,22 +45,22 @@ body {
 						</thead>
 						<tbody>
                         <tr th:each="registry : ${registrys}">
-                            <td th:text="${registry.employee.name}"></td>
-                            <td th:text="${registry.employee.workday.name}"></td>
+                            <td th:text="${registry.entityRegistry.employee.name}"></td>
+                            <td th:text="${registry.entityRegistry.employee.workday.name}"></td>
                             <td >
-								<span th:text="${registry.hours}"></span>
+								<span th:text="${registry.entityRegistry.hours}"></span>
 								<div class="progress">
-									<div class="progress-bar" role="progressbar" th:style="'width:'+ ${registry.hours*40}+'%'"  aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" th:text="${registry.hours*30}+'%'">25%</div>
+									<div class="progress-bar" role="progressbar" th:style="'width:'+ ${registry.percentageHour}+'%'"  aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" th:text="${registry.percentageHour}+'%'">25%</div>
 								</div>
 							</td>
                             <td
-                                    th:text="${#dates.format(registry.dateRegistry, 'dd/MMM/yyyy')}"></td>
+                                    th:text="${#dates.format(registry.entityRegistry.dateRegistry, 'dd/MMM/yyyy')}"></td>
                             <td class="operaciones" sec:authorize="hasRole('ADMIN')">
                                 <a class="btn btn-primary" th:text="#{label.edit}"
-                                                       th:href="@{/create/registry/edit/{id}(id=${registry.id})}">Editar</a>
+                                                       th:href="@{/create/registry/edit/{id}(id=${registry.entityRegistry.id})}">Editar</a>
 
                                 <button type="button" class="btn btn-danger"
-                                        th:onclick="|javascript:open_delete(${registry.id}, 'R')|">Borrar</button>
+                                        th:onclick="|javascript:open_delete(${registry.entityRegistry.id}, 'R')|">Borrar</button>
                             </td>
                         </tr>
 						</tbody>

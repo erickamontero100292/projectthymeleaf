@@ -2,11 +2,11 @@ package com.workday.services;
 
 import java.util.List;
 
-import com.workday.model.Employee;
+import com.workday.entitty.Employee;
+import com.workday.entitty.EntityRegistry;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.workday.model.Registry;
 import com.workday.repository.RegistryRepository;
 
 
@@ -21,39 +21,39 @@ public class RegistryService {
 		this.registryRepository = registryRepository;
 	}
 	
-	public Registry save (Registry registry){
+	public EntityRegistry save (EntityRegistry registry){
 		
 		return registryRepository.save(registry);
 	}
 	
 	
-	public List<Registry>findAll(){
+	public List<EntityRegistry>findAll(){
 		return registryRepository.findAll();
 		
 	}
 
-	public List<Registry> findAllByOrderByDateRegistryAsc(){
+	public List<EntityRegistry> findAllByOrderByDateRegistryAsc(){
 		return registryRepository.findAllByOrderByDateRegistryAsc();
 
 	}
 	
-	public List<Registry>findByEmployee(Employee employee){
+	public List<EntityRegistry>findByEmployee(Employee employee){
 		return registryRepository.findByEmployee(employee);
 		
 	}
 
-	public List<Registry>findByEmployeeByOrderByDateRegistryAsc(Employee employee){
-		List<Registry> registries= registryRepository.findByEmployee(employee,Sort.by(Sort.Direction.ASC, "dateRegistry"));
+	public List<EntityRegistry>findByEmployeeByOrderByDateRegistryAsc(Employee employee){
+		List<EntityRegistry> registries= registryRepository.findByEmployee(employee,Sort.by(Sort.Direction.ASC, "dateRegistry"));
 		return registries;
 
 	}
 	
-	public Registry findById(Long id) {
+	public EntityRegistry findById(Long id) {
 		return registryRepository.findById(id).orElse(null);
 		
 	}
-	public Registry delete (Long id) {
-		Registry registry =  findById(id);
+	public EntityRegistry delete (Long id) {
+		EntityRegistry registry =  findById(id);
 		registryRepository.delete(registry);
 		return registry;
 	}

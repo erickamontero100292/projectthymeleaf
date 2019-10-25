@@ -1,10 +1,9 @@
 package com.workday.services;
 
 
-import com.workday.model.UserApp;
+import com.workday.entitty.UserApp;
 import com.workday.repository.UserAppRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 

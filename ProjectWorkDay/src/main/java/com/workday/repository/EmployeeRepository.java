@@ -1,9 +1,9 @@
 package com.workday.repository;
 
-import com.workday.model.UserApp;
+import com.workday.entitty.UserApp;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.workday.model.Employee;
+import com.workday.entitty.Employee;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 

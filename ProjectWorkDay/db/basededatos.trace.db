@@ -6659,3 +6659,7 @@ Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/ezm
 	at org.h2.mvstore.FileStore.open(FileStore.java:172)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:390)
 	... 62 more
+2019-10-25 11:33:51 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "ENTITY_REGISTRY" no encontrada
+Table "ENTITY_REGISTRY" not found; SQL statement:
+select entityregi0_.id as id1_1_, entityregi0_.date_registry as date_reg2_1_, entityregi0_.employee_id as employee4_1_, entityregi0_.hours as hours3_1_ from entity_registry entityregi0_ order by entityregi0_.date_registry asc [42102-199]
