@@ -1,7 +1,7 @@
 package com.workday.services;
 
 
-import com.workday.entitty.EntityUserApp;
+import com.workday.entity.EntityUserApp;
 import com.workday.repository.UserAppRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

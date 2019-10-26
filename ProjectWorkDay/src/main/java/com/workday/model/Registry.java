@@ -1,6 +1,6 @@
 package com.workday.model;
 
-import com.workday.entitty.EntityRegistry;
+import com.workday.entity.EntityRegistry;
 
 public class Registry {
 

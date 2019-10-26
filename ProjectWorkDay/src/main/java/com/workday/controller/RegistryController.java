@@ -1,8 +1,8 @@
 package com.workday.controller;
 
 import com.workday.configuration.PropertiesConfiguration;
-import com.workday.entitty.EntityEmployee;
-import com.workday.entitty.EntityRegistry;
+import com.workday.entity.EntityEmployee;
+import com.workday.entity.EntityRegistry;
 import com.workday.model.Registry;
 import com.workday.services.EmployeeService;
 import com.workday.services.I18nService;
@@ -104,7 +104,7 @@ public class RegistryController {
     }
 
     @PostMapping("/new/submit")
-    public String submitNewWorkDay(@Valid EntityRegistry registry, BindingResult bindingResult, Model model) {
+    public String submitNewWorkDay(@Valid @ModelAttribute("registry") EntityRegistry registry, BindingResult bindingResult, Model model) {
         String url = "list/list-registry";
         boolean processFail = processSaveRegistry(registry, bindingResult);
         if (processFail) {
@@ -120,7 +120,7 @@ public class RegistryController {
     }
 
     @PostMapping("/new/adminSubmit")
-    public String submitAdminNewWorkDay(@Valid EntityRegistry registry, BindingResult bindingResult, Model model) {
+    public String submitAdminNewWorkDay(@Valid @ModelAttribute("registry") EntityRegistry registry, BindingResult bindingResult, Model model) {
         String url = "list/list-registry";
         List<EntityEmployee> employees = new ArrayList<>(employeeService.findAll());
 

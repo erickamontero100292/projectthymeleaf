@@ -1,7 +1,7 @@
 package com.workday.controller;
 
-import com.workday.entitty.EntityEmployee;
-import com.workday.entitty.EntityUserApp;
+import com.workday.entity.EntityEmployee;
+import com.workday.entity.EntityUserApp;
 import com.workday.services.EmployeeService;
 import com.workday.services.I18nService;
 import com.workday.services.UserAppService;

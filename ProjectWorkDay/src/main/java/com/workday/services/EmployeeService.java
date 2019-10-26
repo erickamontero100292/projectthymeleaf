@@ -2,11 +2,11 @@ package com.workday.services;
 
 import java.util.List;
 
-import com.workday.entitty.EntityUserApp;
+import com.workday.entity.EntityUserApp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.workday.entitty.EntityEmployee;
+import com.workday.entity.EntityEmployee;
 import com.workday.repository.EmployeeRepository;
 
 @Service

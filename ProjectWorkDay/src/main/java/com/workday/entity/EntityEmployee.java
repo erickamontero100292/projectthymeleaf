@@ -1,4 +1,4 @@
-package com.workday.entitty;
+package com.workday.entity;
 
 import javax.persistence.*;
 
@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
+@Table (name = "employee")
 public class EntityEmployee {
     @Id
     @GeneratedValue

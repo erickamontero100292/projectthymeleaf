@@ -1,7 +1,7 @@
 package com.workday.controller;
 
 
-import com.workday.entitty.EntityUserApp;
+import com.workday.entity.EntityUserApp;
 import com.workday.services.UserAppService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -1,14 +1,16 @@
-package com.workday.entitty;
+package com.workday.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import lombok.Data;
 
 
 @Data
 @Entity
+@Table(name = "workday")
 public class EntityWorkday {
 
     @Id

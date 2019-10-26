@@ -1,4 +1,4 @@
-package com.workday.entitty;
+package com.workday.entity;
 
 
 import javax.persistence.*;

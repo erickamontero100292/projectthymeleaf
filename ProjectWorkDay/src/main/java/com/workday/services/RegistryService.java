@@ -2,8 +2,8 @@ package com.workday.services;
 
 import java.util.List;
 
-import com.workday.entitty.EntityEmployee;
-import com.workday.entitty.EntityRegistry;
+import com.workday.entity.EntityEmployee;
+import com.workday.entity.EntityRegistry;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 

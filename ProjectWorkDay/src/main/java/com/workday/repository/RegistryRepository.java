@@ -3,8 +3,8 @@ package com.workday.repository;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.workday.entitty.EntityEmployee;
-import com.workday.entitty.EntityRegistry;
+import com.workday.entity.EntityEmployee;
+import com.workday.entity.EntityRegistry;
 
 import java.util.List;
 

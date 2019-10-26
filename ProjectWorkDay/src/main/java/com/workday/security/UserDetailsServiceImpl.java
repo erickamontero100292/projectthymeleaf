@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.workday.entitty.EntityUserApp;
+import com.workday.entity.EntityUserApp;
 import com.workday.repository.UserAppRepository;
 
 
