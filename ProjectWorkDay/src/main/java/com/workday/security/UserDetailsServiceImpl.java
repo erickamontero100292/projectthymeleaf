@@ -1,5 +1,6 @@
 package com.workday.security;
 
+import com.workday.repository.RolRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -19,7 +20,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Autowired
 	UserAppRepository repository;
-	
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		EntityUserApp usuario = repository.findFirstByUser(username);
@@ -31,7 +32,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			builder = User.withUsername(username);
 			builder.disabled(false);
 			builder.password(usuario.getPassword());
-			builder.authorities(new SimpleGrantedAuthority("ROLE_"+usuario.getRol()));
+			builder.authorities(new SimpleGrantedAuthority("ROLE_"+usuario.getRol().getName()));
 		} else {
 			throw new UsernameNotFoundException("Usuario no encontrado");
 		}

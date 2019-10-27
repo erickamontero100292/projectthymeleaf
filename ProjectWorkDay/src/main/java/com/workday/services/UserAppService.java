@@ -22,7 +22,8 @@ public class UserAppService {
 
     public EntityUserApp save(EntityUserApp userApp) {
         userApp.setDateCreate(new Date());
-        userApp.setRol("USER");
+        //TODO ADJUST WITH ENTITYROL
+//        userApp.setNameRol("USER");
         userApp.setPassword(passwordEncoder.encode(userApp.getPassword()));
 
         return repository.save(userApp);

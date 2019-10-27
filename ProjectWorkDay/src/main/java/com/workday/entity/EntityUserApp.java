@@ -11,16 +11,19 @@ public class EntityUserApp {
 
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreate;
 
     private String user;
     private String password;
-    private String rol;
+
+    @OneToOne
+    @JoinColumn(name = "rol")
+    private EntityRol rol;
 
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
     private List<EntityEmployee> employeeList = new ArrayList<>();
 
     public long getId() {
@@ -55,13 +58,6 @@ public class EntityUserApp {
         this.password = password;
     }
 
-    public String getRol() {
-        return rol;
-    }
-
-    public void setRol(String rol) {
-        this.rol = rol;
-    }
 
     public EntityUserApp(Date dateCreate, String user, String password) {
         this.dateCreate = dateCreate;
@@ -69,11 +65,10 @@ public class EntityUserApp {
         this.password = password;
     }
 
-    public EntityUserApp(Date dateCreate, String user, String password, String rol) {
+    public EntityUserApp(Date dateCreate, String user, String password, String nameRol) {
         this.dateCreate = dateCreate;
         this.user = user;
         this.password = password;
-        this.rol = rol;
     }
 
     public EntityUserApp() {
@@ -85,5 +80,13 @@ public class EntityUserApp {
 
     public void setEmployeeList(List<EntityEmployee> employeeList) {
         this.employeeList = employeeList;
+    }
+
+    public EntityRol getRol() {
+        return rol;
+    }
+
+    public void setRol(EntityRol rol) {
+        this.rol = rol;
     }
 }

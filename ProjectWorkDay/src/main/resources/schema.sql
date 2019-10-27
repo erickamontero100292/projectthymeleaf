@@ -2,6 +2,7 @@ drop table userapp if exists;
 drop table workday if exists;
 drop table employee if exists;
 drop table registry if exists;
+drop table roluser if exists;
 
 
 drop sequence if exists hibernate_sequence;
@@ -41,10 +42,16 @@ create table userapp
     date_create timestamp,
     user       varchar(512) UNIQUE,
     password    varchar(512),
-    rol    varchar(512),
+    rol        bigint,
     primary key (id)
 );
 
+create table roluser
+(
+    id   bigint not null,
+    name varchar(512) unique,
+    primary key (id)
+);
 
 alter table employee
     add constraint fk_employee_workday foreign key (workday_id) references workday;
@@ -55,4 +62,7 @@ alter table registry
 
 ALTER TABLE registry
     ADD CONSTRAINT unq_date_employee
-    UNIQUE (date_registry, employee_id);
+        UNIQUE (date_registry, employee_id);
+
+alter table userapp
+    add constraint fk_roluser_id foreign key (rol) references roluser;
