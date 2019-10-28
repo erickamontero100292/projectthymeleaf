@@ -20,7 +20,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Autowired
 	UserAppRepository repository;
-
+	@Autowired
+	RolRepository repositoryRol;
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		EntityUserApp usuario = repository.findFirstByUser(username);

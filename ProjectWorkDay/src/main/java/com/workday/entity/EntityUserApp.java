@@ -18,13 +18,10 @@ public class EntityUserApp {
     private String user;
     private String password;
 
-    @OneToOne
-    @JoinColumn(name = "rol")
+    @ManyToOne
+    @JoinColumn(name="rol")
     private EntityRol rol;
 
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
-    private List<EntityEmployee> employeeList = new ArrayList<>();
 
     public long getId() {
         return id;
@@ -72,14 +69,6 @@ public class EntityUserApp {
     }
 
     public EntityUserApp() {
-    }
-
-    public List<EntityEmployee> getEmployeeList() {
-        return employeeList;
-    }
-
-    public void setEmployeeList(List<EntityEmployee> employeeList) {
-        this.employeeList = employeeList;
     }
 
     public EntityRol getRol() {

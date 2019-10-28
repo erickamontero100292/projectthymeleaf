@@ -3,10 +3,9 @@ package com.workday.entity;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -19,8 +18,8 @@ public class EntityRol {
 
     private String name;
 
-  /*  @OneToMany(mappedBy = "prueba", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
-    private List<EntityUserApp> userList = new ArrayList<>();*/
+    @OneToMany(mappedBy = "rol", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
+    private List<EntityUserApp> appArrayList = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -45,5 +44,11 @@ public class EntityRol {
         this.name = name;
     }
 
+    public List<EntityUserApp> getAppArrayList() {
+        return appArrayList;
+    }
 
+    public void setAppArrayList(List<EntityUserApp> appArrayList) {
+        this.appArrayList = appArrayList;
+    }
 }
