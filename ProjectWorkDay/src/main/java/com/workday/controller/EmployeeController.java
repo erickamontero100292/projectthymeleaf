@@ -2,12 +2,11 @@ package com.workday.controller;
 
 import com.workday.entity.EntityEmployee;
 import com.workday.entity.EntityUserApp;
+import com.workday.helper.EmployeeHelper;
 import com.workday.services.EmployeeService;
 import com.workday.services.I18nService;
-import com.workday.services.UserAppService;
 import com.workday.services.WorkDayService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,7 +32,7 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @Autowired
-    private UserAppService userAppService;
+    EmployeeHelper employeeHelper;
 
     @Autowired
     private I18nService i18nService;
@@ -66,7 +65,7 @@ public class EmployeeController {
     public String newEmployee(@Valid @ModelAttribute(EMPLOYEE) EntityEmployee employee, BindingResult bindingResult, Model model) {
         String url = LIST_LIST_EMPLOYEE;
         EntityUserApp userApp = employee.getUser();
-        userApp = saveUser(bindingResult, userApp);
+        userApp = employeeHelper.saveUser(bindingResult, userApp);
         if (bindingResult.hasErrors()) {
             model.addAttribute(WORKDAYS, workdayService.findAll());
             url = CREATE_FORM_EMPLOYEE;
@@ -128,16 +127,5 @@ public class EmployeeController {
         return "fragments/modal::modal_delete";
     }
 
-    private EntityUserApp saveUser(BindingResult bindingResult, EntityUserApp userApp) {
-        try {
 
-            userApp = userAppService.save(userApp);
-
-        } catch (DataIntegrityViolationException dive) {
-            bindingResult.rejectValue("user", "error.user.exist");
-        } catch (Exception e) {
-            bindingResult.rejectValue("user", "error.unexpected");
-        }
-        return userApp;
-    }
 }

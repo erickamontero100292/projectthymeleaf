@@ -8,10 +8,6 @@ public enum Roles {
         return rolName;
     }
 
-    public void setRolName(String rolName) {
-        this.rolName = rolName;
-    }
-
     private String rolName;
 
     Roles(String rolName) {

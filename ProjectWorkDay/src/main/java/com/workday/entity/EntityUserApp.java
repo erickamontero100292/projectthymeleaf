@@ -1,9 +1,7 @@
 package com.workday.entity;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "userapp")
@@ -62,11 +60,6 @@ public class EntityUserApp {
         this.password = password;
     }
 
-    public EntityUserApp(Date dateCreate, String user, String password, String nameRol) {
-        this.dateCreate = dateCreate;
-        this.user = user;
-        this.password = password;
-    }
 
     public EntityUserApp() {
     }

@@ -1,6 +1,5 @@
 package com.workday.controller;
 
-import com.workday.configuration.PropertiesConfiguration;
 import com.workday.constant.Roles;
 import com.workday.entity.EntityEmployee;
 import com.workday.entity.EntityRegistry;
@@ -10,7 +9,6 @@ import com.workday.services.EmployeeService;
 import com.workday.services.I18nService;
 import com.workday.services.RegistryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -28,6 +25,10 @@ import java.util.List;
 public class RegistryController {
 
 
+    public static final String CREATE_FORM_REGISTRY = "create/form-registry";
+    public static final String REGISTRYS = "registrys";
+    public static final String LIST_LIST_REGISTRY = "list/list-registry";
+    public static final String EMPLOYEES = "employees";
     @Autowired
     private EmployeeService employeeService;
 
@@ -39,19 +40,19 @@ public class RegistryController {
     @Autowired
     private RegistryHelper registryHelper;
 
-    @ModelAttribute("registrys")
+    @ModelAttribute(REGISTRYS)
     public List<Registry> myRegistry() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         SimpleGrantedAuthority rol = (SimpleGrantedAuthority) SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next();
         List<EntityRegistry> entityRegistries;
-        List<Registry> registryList = new ArrayList<>();
+        List<Registry> registryList;
         if (rol.getAuthority().equalsIgnoreCase(Roles.ROL_ADMIN.getRolName())) {
-            entityRegistries = new ArrayList<EntityRegistry>(registryService.findAllByOrderByDateRegistryAsc());
+            entityRegistries = new ArrayList<>(registryService.findAllByOrderByDateRegistryAsc());
             registryList = registryHelper.processPercentageHourWorked(entityRegistries);
 
         } else {
             EntityEmployee employee = employeeService.findByUser(email);
-            entityRegistries = new ArrayList<EntityRegistry>(registryService.findByEmployeeByOrderByDateRegistryAsc(employee));
+            entityRegistries = new ArrayList<>(registryService.findByEmployeeByOrderByDateRegistryAsc(employee));
             registryList = registryHelper.processPercentageHourWorked(entityRegistries);
         }
 
@@ -61,26 +62,26 @@ public class RegistryController {
 
     @GetMapping("/")
     public String index(Model model) {
-        List<EntityRegistry> registrys = new ArrayList<EntityRegistry>(registryService.findAllByOrderByDateRegistryAsc());
+        List<EntityRegistry> registrys = new ArrayList<>(registryService.findAllByOrderByDateRegistryAsc());
         List<Registry> registryList = registryHelper.processPercentageHourWorked(registrys);
-        model.addAttribute("registrys", registryList);
-        return "list/list-registry";
+        model.addAttribute(REGISTRYS, registryList);
+        return LIST_LIST_REGISTRY;
     }
 
 
     @GetMapping("/list")
     public String listRegistry(Model model) {
-        List<EntityRegistry> registrys = new ArrayList<EntityRegistry>(registryService.findAllByOrderByDateRegistryAsc());
-        List<Registry> registryList = new ArrayList<>();
+        List<EntityRegistry> registrys = new ArrayList<>(registryService.findAllByOrderByDateRegistryAsc());
+        List<Registry> registryList;
         registryList = registryHelper.processPercentageHourWorked(registrys);
-        model.addAttribute("registrys", registryList);
-        return "list/list-registry";
+        model.addAttribute(REGISTRYS, registryList);
+        return LIST_LIST_REGISTRY;
     }
 
     @GetMapping("/listMyRegistry")
     public String listMyRegistry(Model model) {
-        model.addAttribute("registrys");
-        return "list/list-registry";
+        model.addAttribute(REGISTRYS);
+        return LIST_LIST_REGISTRY;
     }
 
 
@@ -88,21 +89,21 @@ public class RegistryController {
     public String newemployee(Model model) {
 
         model.addAttribute("registry", new EntityRegistry());
-        model.addAttribute("employees", employeeService.findAll());
-        return "create/form-registry";
+        model.addAttribute(EMPLOYEES, employeeService.findAll());
+        return CREATE_FORM_REGISTRY;
     }
 
     @PostMapping("/new/submit")
     public String submitNewWorkDay(@Valid @ModelAttribute("registry") EntityRegistry registry, BindingResult bindingResult, Model model) {
-        String url = "list/list-registry";
+        String url = LIST_LIST_REGISTRY;
         boolean processFail = registryHelper.processSaveRegistry(registry, bindingResult);
         if (processFail) {
-            url = "create/form-registry";
+            url = CREATE_FORM_REGISTRY;
         } else {
-            List<EntityRegistry> registrys = new ArrayList<EntityRegistry>(registryService.findByEmployeeByOrderByDateRegistryAsc(registry.getEmployee()));
-            List<Registry> registryList = new ArrayList<>();
+            List<EntityRegistry> registrys = new ArrayList<>(registryService.findByEmployeeByOrderByDateRegistryAsc(registry.getEmployee()));
+            List<Registry> registryList;
             registryList = registryHelper.processPercentageHourWorked(registrys);
-            model.addAttribute("registrys", registryList);
+            model.addAttribute(REGISTRYS, registryList);
         }
 
         return url;
@@ -110,20 +111,20 @@ public class RegistryController {
 
     @PostMapping("/new/adminSubmit")
     public String submitAdminNewWorkDay(@Valid @ModelAttribute("registry") EntityRegistry registry, BindingResult bindingResult, Model model) {
-        String url = "list/list-registry";
+        String url = LIST_LIST_REGISTRY;
         List<EntityEmployee> employees = new ArrayList<>(employeeService.findAll());
 
         boolean processFail = registryHelper.processSaveRegistry(registry, bindingResult);
 
         if (processFail) {
-            model.addAttribute("employees", employees);
-            url = "create/form-registry";
+            model.addAttribute(EMPLOYEES, employees);
+            url = CREATE_FORM_REGISTRY;
         } else {
 
             List<EntityRegistry> registrys = new ArrayList<>(registryService.findAllByOrderByDateRegistryAsc());
             List<Registry> registryList = new ArrayList<>();
             registryList = registryHelper.processPercentageHourWorked(registrys);
-            model.addAttribute("registrys", registryList);
+            model.addAttribute(REGISTRYS, registryList);
         }
 
         return url;
@@ -136,8 +137,8 @@ public class RegistryController {
         EntityRegistry registry = registryService.findById(id);
         if (registry != null) {
             model.addAttribute("registry", registry);
-            model.addAttribute("employees", employeeService.findAll());
-            url = "create/form-registry";
+            model.addAttribute(EMPLOYEES, employeeService.findAll());
+            url = CREATE_FORM_REGISTRY;
 
         } else {
             url = "redirect:/create/registry/";

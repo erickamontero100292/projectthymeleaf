@@ -21,6 +21,8 @@ import com.workday.services.WorkDayService;
 @RequestMapping("/create/workday")
 public class WorkdayController {
 
+	public static final String WORKDAYS = "workdays";
+	public static final String LIST_LIST_WORKDAY = "list/list-workday";
 	@Autowired
 	private WorkDayService workdayService;
 
@@ -32,9 +34,9 @@ public class WorkdayController {
 
 	@GetMapping("/")
 	public String index(Model model) {
-		List<EntityWorkday> workDays = new ArrayList<EntityWorkday>(workdayService.findAll());
-		model.addAttribute("workdays", workDays);
-		return "list/list-workday";
+		List<EntityWorkday> workDays = new ArrayList<>(workdayService.findAll());
+		model.addAttribute(WORKDAYS, workDays);
+		return LIST_LIST_WORKDAY;
 	}
 
 	@GetMapping("/new")
@@ -48,17 +50,17 @@ public class WorkdayController {
 		long numberHourWeek = (properties.getDaysWeek() * workday.getNumberDailyHour());
 		workday.setNumberWeekHour(numberHourWeek);
 		workdayService.save(workday);
-		List<EntityWorkday> workDays = new ArrayList<EntityWorkday>(workdayService.findAll());
-		model.addAttribute("workdays", workDays);
+		List<EntityWorkday> workDays = new ArrayList<>(workdayService.findAll());
+		model.addAttribute(WORKDAYS, workDays);
 
-		return "list/list-workday";
+		return LIST_LIST_WORKDAY;
 	}
 
 	@GetMapping("/list")
 	public String listWorkDay(Model model) {
-		List<EntityWorkday> workDays = new ArrayList<EntityWorkday>(workdayService.findAll());
-		model.addAttribute("workdays", workDays);
-		return "list/list-workday";
+		List<EntityWorkday> workDays = new ArrayList<>(workdayService.findAll());
+		model.addAttribute(WORKDAYS, workDays);
+		return LIST_LIST_WORKDAY;
 	}
 
 	@GetMapping("/edit/{id}")
