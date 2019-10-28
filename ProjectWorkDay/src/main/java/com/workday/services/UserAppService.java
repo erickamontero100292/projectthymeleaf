@@ -1,6 +1,7 @@
 package com.workday.services;
 
 
+import com.workday.entity.EntityRol;
 import com.workday.entity.EntityUserApp;
 import com.workday.repository.UserAppRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +18,19 @@ public class UserAppService {
     UserAppRepository repository;
 
     @Autowired
+    RolService rolService;
+
+    @Autowired
     BCryptPasswordEncoder passwordEncoder;
 
 
     public EntityUserApp save(EntityUserApp userApp) {
         userApp.setDateCreate(new Date());
+        EntityRol entityRol = rolService.findByName("USER");
         //TODO ADJUST WITH ENTITYROL
 //        userApp.setNameRol("USER");
         userApp.setPassword(passwordEncoder.encode(userApp.getPassword()));
-
+userApp.setRol(entityRol);
         return repository.save(userApp);
     }
 

@@ -19,6 +19,8 @@ public class RolService {
 		return repository.save(entityRol);
 	}
 
-
+	public EntityRol findByName(String name){
+		return repository.findByName(name);
+	}
 
 }
