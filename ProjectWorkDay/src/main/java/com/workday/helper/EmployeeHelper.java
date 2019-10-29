@@ -12,13 +12,14 @@ import org.springframework.validation.BindingResult;
 public class EmployeeHelper {
 
 
+    public static final String ROL_USER = "USER";
     @Autowired
     private UserAppService userAppService;
 
     public EntityUserApp saveUser(BindingResult bindingResult, EntityUserApp userApp) {
         try {
 
-            userApp = userAppService.save(userApp);
+            userApp = userAppService.save(userApp, ROL_USER);
 
         } catch (DataIntegrityViolationException dive) {
             bindingResult.rejectValue("user.user", "error.user.exist");

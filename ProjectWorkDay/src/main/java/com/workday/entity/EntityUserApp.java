@@ -71,4 +71,11 @@ public class EntityUserApp {
     public void setRol(EntityRol rol) {
         this.rol = rol;
     }
+
+    public EntityUserApp(Date dateCreate, String user, String password, EntityRol rol) {
+        this.dateCreate = dateCreate;
+        this.user = user;
+        this.password = password;
+        this.rol = rol;
+    }
 }

@@ -71,7 +71,13 @@ public class EntityWorkday {
         this.numberWeekHour = numberWeekHour;
     }
 
-	public EntityWorkday() {
+    public EntityWorkday(String name, Long numberDailyHour, Long numberWeekHour) {
+        this.name = name;
+        this.numberDailyHour = numberDailyHour;
+        this.numberWeekHour = numberWeekHour;
+    }
+
+    public EntityWorkday() {
 		super();
 	}
 

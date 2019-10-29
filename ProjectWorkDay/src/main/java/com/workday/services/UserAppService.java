@@ -26,12 +26,18 @@ public class UserAppService {
 
     public EntityUserApp save(EntityUserApp userApp) {
         userApp.setDateCreate(new Date());
-        EntityRol entityRol = rolService.findByName("USER");
-        userApp.setRol(entityRol);
-        //TODO ADJUST PASSWORD ENCODER
-//        userApp.setPassword(passwordEncoder.encode(userApp.getPassword()));
+        userApp.setPassword(passwordEncoder.encode(userApp.getPassword()));
         return repository.save(userApp);
     }
+
+    public EntityUserApp save(EntityUserApp userApp, String rol) {
+        userApp.setDateCreate(new Date());
+        EntityRol entityRol = rolService.findByName(rol);
+        userApp.setRol(entityRol);
+        userApp.setPassword(passwordEncoder.encode(userApp.getPassword()));
+        return repository.save(userApp);
+    }
+
 
     public EntityUserApp update(EntityUserApp userApp) {
         userApp.setPassword(passwordEncoder.encode(userApp.getPassword()));

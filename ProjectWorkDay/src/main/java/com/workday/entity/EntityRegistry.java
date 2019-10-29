@@ -72,5 +72,9 @@ public class EntityRegistry {
         this.dateRegistry = new Date();
     }
 
-
+    public EntityRegistry(@NotNull Date dateRegistry, EntityEmployee employee, @NotNull Long hours) {
+        this.dateRegistry = dateRegistry;
+        this.employee = employee;
+        this.hours = hours;
+    }
 }

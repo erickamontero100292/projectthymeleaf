@@ -57,4 +57,9 @@ public class RegistryService {
 		registryRepository.delete(registry);
 		return registry;
 	}
+
+	public List<EntityRegistry>  save (List<EntityRegistry> entityRegistries){
+
+		return registryRepository.saveAll(entityRegistries);
+	}
 }

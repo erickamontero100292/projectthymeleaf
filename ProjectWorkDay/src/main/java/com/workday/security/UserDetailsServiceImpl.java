@@ -27,8 +27,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		UserBuilder builder = null;
 		
 		if (usuario != null) {
-			BCryptPasswordEncoder passwordEncoder= new BCryptPasswordEncoder();
-			usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
 			builder = User.withUsername(username);
 			builder.disabled(false);
 			builder.password(usuario.getPassword());

@@ -69,8 +69,9 @@ public class EmployeeController {
             userApp = employee.getUser();
             userApp = employeeHelper.saveUser(bindingResult, userApp);
         }else{
-            employee = employeeService.findById(employee.getId());
-            userApp = employee.getUser();
+            EntityEmployee entityEmployee = employeeService.findById(employee.getId());
+            userApp = entityEmployee.getUser();
+            userApp.setPassword(employee.getUser().getPassword());
             userApp = employeeHelper.updateUser(bindingResult, userApp);
         }
 

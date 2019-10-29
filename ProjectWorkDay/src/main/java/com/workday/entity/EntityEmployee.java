@@ -78,5 +78,9 @@ public class EntityEmployee {
 		super();
 	}
 
-
+    public EntityEmployee(@NotEmpty String name, @NotNull(message = "{error.workday.null}") EntityWorkday workday, EntityUserApp user) {
+        this.name = name;
+        this.workday = workday;
+        this.user = user;
+    }
 }
