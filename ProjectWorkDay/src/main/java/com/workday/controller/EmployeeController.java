@@ -64,8 +64,16 @@ public class EmployeeController {
     @PostMapping("/new/submit")
     public String newEmployee(@Valid @ModelAttribute(EMPLOYEE) EntityEmployee employee, BindingResult bindingResult, Model model) {
         String url = LIST_LIST_EMPLOYEE;
-        EntityUserApp userApp = employee.getUser();
-        userApp = employeeHelper.saveUser(bindingResult, userApp);
+        EntityUserApp userApp;
+        if (employee.getId() == null) {
+            userApp = employee.getUser();
+            userApp = employeeHelper.saveUser(bindingResult, userApp);
+        }else{
+            employee = employeeService.findById(employee.getId());
+            userApp = employee.getUser();
+            userApp = employeeHelper.updateUser(bindingResult, userApp);
+        }
+
         if (bindingResult.hasErrors()) {
             model.addAttribute(WORKDAYS, workdayService.findAll());
             url = CREATE_FORM_EMPLOYEE;

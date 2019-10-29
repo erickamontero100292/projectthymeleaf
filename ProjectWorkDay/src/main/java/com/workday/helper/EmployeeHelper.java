@@ -21,9 +21,22 @@ public class EmployeeHelper {
             userApp = userAppService.save(userApp);
 
         } catch (DataIntegrityViolationException dive) {
-            bindingResult.rejectValue("user", "error.user.exist");
+            bindingResult.rejectValue("user.user", "error.user.exist");
         } catch (Exception e) {
-            bindingResult.rejectValue("user", "error.unexpected");
+            bindingResult.rejectValue("user.user", "error.unexpected");
+        }
+        return userApp;
+    }
+
+    public EntityUserApp updateUser(BindingResult bindingResult, EntityUserApp userApp) {
+        try {
+
+            userApp = userAppService.update(userApp);
+
+        } catch (DataIntegrityViolationException dive) {
+            bindingResult.rejectValue("user.user", "error.user.exist");
+        } catch (Exception e) {
+            bindingResult.rejectValue("user.user", "error.unexpected");
         }
         return userApp;
     }
