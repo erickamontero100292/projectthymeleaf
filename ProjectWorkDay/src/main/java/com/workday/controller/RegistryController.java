@@ -61,19 +61,18 @@ public class RegistryController {
 
 
     @GetMapping("/")
-    public String index(Model model) {
-        List<EntityRegistry> registrys = new ArrayList<>(registryService.findAllByOrderByDateRegistryAsc());
-        List<Registry> registryList = registryHelper.processPercentageHourWorked(registrys);
+    public String index(Model model, @RequestParam(name = "q", required = false) String query) {
+
+        List<Registry> registryList = registryHelper.getListRegistry(query);
         model.addAttribute(REGISTRYS, registryList);
         return LIST_LIST_REGISTRY;
     }
 
 
     @GetMapping("/list")
-    public String listRegistry(Model model) {
-        List<EntityRegistry> registrys = new ArrayList<>(registryService.findAllByOrderByDateRegistryAsc());
-        List<Registry> registryList;
-        registryList = registryHelper.processPercentageHourWorked(registrys);
+    public String listRegistry(Model model, @RequestParam(name = "q", required = false) String query) {
+
+        List<Registry> registryList = registryHelper.getListRegistry(query);
         model.addAttribute(REGISTRYS, registryList);
         return LIST_LIST_REGISTRY;
     }
@@ -111,7 +110,7 @@ public class RegistryController {
 
     @PostMapping("/new/adminSubmit")
     public String submitAdminNewWorkDay(@Valid @ModelAttribute("registry") EntityRegistry registry, BindingResult bindingResult, Model model) {
-        String url = LIST_LIST_REGISTRY;
+        String url = "redirect:/create/registry/";
         List<EntityEmployee> employees = new ArrayList<>(employeeService.findAll());
 
         boolean processFail = registryHelper.processSaveRegistry(registry, bindingResult);

@@ -17,5 +17,12 @@ public interface RegistryRepository extends JpaRepository<EntityRegistry, Long> 
 
 	List<EntityRegistry> findAllByOrderByDateRegistryAsc();
 
+	List<EntityRegistry> findEntityRegistryByEmployee_NameContains(String name);
+
+	List<EntityRegistry> findEntityRegistryByEmployee_NameContainsIgnoreCase(String name);
+
+
+	List<EntityRegistry> findByEmployeeContaining(EntityEmployee entityEmployee);
+
 
 }

@@ -29,6 +29,10 @@ body {
 			<div class="row" th:unless="${#lists.isEmpty(registrys)}">
 				<div class="col-md-offset-1 col-md-10">
 					<div class="pull-right">
+						<form  sec:authorize="hasRole('ADMIN')" class="navbar-form navbar-right" >
+							<input type="text" class="form-control" placeholder="Buscar..."
+								   name="q" th:value="${param.q}">
+						</form>
 						<a th:href="@{/create/registry/new}" class="btn btn-primary"
 							th:text="#{label.newRegistry}">Nuevo registro</a>
 

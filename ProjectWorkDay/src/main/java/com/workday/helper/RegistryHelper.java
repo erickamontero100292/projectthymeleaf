@@ -13,7 +13,9 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -149,5 +151,17 @@ public class RegistryHelper {
         return hasError;
     }
 
+    public List<Registry> getListRegistry(@RequestParam(name = "q", required = false) String query) {
+        List<EntityRegistry> registrys;
+        if (query != null) {
+            registrys = new ArrayList<>(registryService.findEntityRegistryByEmployee_NameContainsIgnoreCase(query));
+        } else {
+            registrys = new ArrayList<>(registryService.findAllByOrderByDateRegistryAsc());
+        }
+
+        List<Registry> registryList;
+        registryList = processPercentageHourWorked(registrys);
+        return registryList;
+    }
 
 }
