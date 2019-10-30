@@ -50,7 +50,7 @@ body {
                             <td >
 								<span th:text="${registry.entityRegistry.hours}"></span>
 								<div class="progress">
-									<div class="progress-bar" role="progressbar" th:style="'width:'+ ${registry.percentageHour}+'%'"  aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" th:text="${registry.percentageHour}+'%'">25%</div>
+									<div class="progress-bar"  th:classappend="${registry.percentageHour< 50} ? 'progress-bar-danger': 'progress-bar-success'" role="progressbar" th:style="'width:'+ ${registry.percentageHour}+'%'"  aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" th:text="${registry.percentageHour}+'%'">25%</div>
 								</div>
 							</td>
                             <td
