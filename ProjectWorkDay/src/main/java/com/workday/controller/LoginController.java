@@ -4,6 +4,8 @@ package com.workday.controller;
 import com.workday.entity.EntityUserApp;
 import com.workday.services.UserAppService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,8 +26,17 @@ public class LoginController {
 
     @GetMapping("/auth/login")
     public String login(Model model) {
-        model.addAttribute("userApp", new EntityUserApp());
-        return "login";
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String url = "login";
+        try {
+            if (((UserDetails) principal).isEnabled()) {
+                url = "redirect:/";
+            }
+        } catch (ClassCastException e) {
+            model.addAttribute("userApp", new EntityUserApp());
+        }
+        return url;
     }
 
 
